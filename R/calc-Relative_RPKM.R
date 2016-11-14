@@ -70,7 +70,7 @@ BridgeRDataSetFromMatrix <- function(inputFile,
   }
 
   # Read data matrix
-  gene_number <- length(input_matrix[[1]]) # Total number of genes
+  gene_number <- nrow(input_matrix) # Total number of genes
   sample_size <- length(group)
 
   # FUNC: calc_rel_exp
@@ -99,7 +99,7 @@ BridgeRDataSetFromMatrix <- function(inputFile,
       }
 
       ## Replace the value under cutoff value with 0
-      exp <- replace(exp, which(exp < 0.1), 0)
+      exp <- replace(exp, which(exp < cutoff), 0)
 
       rel_exp <- exp/start_time
       data_vector <- append(data_vector, c(gene_infor, rel_exp))
@@ -122,8 +122,8 @@ BridgeRDataSetFromMatrix <- function(inputFile,
 
 # Test
 library(data.table)
-inputFile <- c("C:/Users/Naoto/OneDrive/Shiny_app/bridger/data/PUM1_study_siStealth_compatible_genes_RefSeq_result_mRNA.fpkm_table",
-               "C:/Users/Naoto/OneDrive/Shiny_app/bridger/data/PUM1_study_siPUM1_compatible_genes_RefSeq_result_mRNA.fpkm_table")
+inputFile <- c("C:/Users/Naoto/OneDrive/Shiny_app/bridger2/data/PUM1_study_siStealth_compatible_genes_RefSeq_result_mRNA.fpkm_table",
+               "C:/Users/Naoto/OneDrive/Shiny_app/bridger2/data/PUM1_study_siPUM1_compatible_genes_RefSeq_result_mRNA.fpkm_table")
 
 group <- c("CTRL","PUM1KD")
 hour <- c(0,1,2,4,8,12)

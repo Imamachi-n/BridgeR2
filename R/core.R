@@ -43,7 +43,11 @@ BridgeRCore <- function(inputFile,
   BridgeRDatasetChecker(inputFile = test_table)
 
   # Calc Normalization factors
-  quantile_table <- BridgeRNormalizationFactors(inputFile = test_table)
+  factor_table <- BridgeRNormalizationFactors(inputFile = test_table)
+
+  # Calc Normalized RPKM values
+  normalized_table <- BridgeRNormalization(test_table, factor_table)
+
 }
 
 
