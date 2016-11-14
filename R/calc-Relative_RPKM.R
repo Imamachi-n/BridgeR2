@@ -11,6 +11,8 @@
 #'
 #' @param cutoff Cutoff value of RPKM at 0hr.
 #'
+#' @param cutoffBelow Cutoff value of RPKM at all time points.
+#'
 #' @param inforColumn The number of information columns.
 #'
 #' @param save Whether to save the output matrix file.
@@ -22,6 +24,7 @@ BridgeRDataSetFromMatrix <- function(inputFile,
                                      group = c("Control","Knockdown"),
                                      hour = c(0, 1, 2, 4, 8, 12),
                                      cutoff = 0.1,
+                                     cutoffBelow = 0.1,
                                      inforColumn = 4,
                                      save = T,
                                      outputPrefix = "BridgeR_1"){
@@ -99,9 +102,10 @@ BridgeRDataSetFromMatrix <- function(inputFile,
       }
 
       ## Replace the value under cutoff value with 0
-      exp <- replace(exp, which(exp < cutoff), 0)
+      exp <- replace(exp, which(exp < cutoffBelow), 0)
 
       rel_exp <- exp/start_time
+      rel_exp <- replace(rel_exp, which(is.nan(rel_exp)), 0)
       data_vector <- append(data_vector, c(gene_infor, rel_exp))
     }
 

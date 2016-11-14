@@ -73,7 +73,8 @@ BridgeRHalfLifeCalcR2Select <- function(inputFile,
   half_calc <- function(time_exp_table, label){
     data_point <- length(time_exp_table$exp)
     if(!is.null(time_exp_table)){
-      if(data_point >= CutoffDataPointNumber){
+      if(data_point >= CutoffTimePointNumber){
+        #print(time_exp_table$exp[1])
         if(as.numeric(as.vector(as.matrix(time_exp_table$exp[1]))) > 0){
           model <- lm(log(time_exp_table$exp) ~ time_exp_table$hour - 1)
           model_summary <- summary(model)
@@ -122,10 +123,9 @@ BridgeRHalfLifeCalcR2Select <- function(inputFile,
       }
       time_point_exp_del <- time_point_exp_del[time_point_exp_del$exp > 0,]
       halflife_R2_result <- half_calc(time_point_exp_del, time_point_exp_del_label)
-      cat("\t", sep="", file=output_file, append=T)
 
-      R2_list <- append(R2_list, halflife_R2_result[2]) #
-      half_list <- append(half_list, halflife_R2_result[1]) #
+      R2_list <- append(R2_list, halflife_R2_result[2])    # r_squared
+      half_list <- append(half_list, halflife_R2_result[3])    # half_life
 
       #Counter
       add_index <- add_index - 1
@@ -144,6 +144,14 @@ BridgeRHalfLifeCalcR2Select <- function(inputFile,
 
     # exp data
     exp <- data[exp_st:exp_ed]
+    #print(exp)
+    data_vector <- c(gene_infor, exp)
+    if (all(is.nan(exp)) || all(exp == "NaN")) {
+      result_list <- rep("NA", 3)
+      data_vector <- c(data_vector, result_list)
+      #print("NG")
+      return(data_vector)
+    }
     exp <- as.numeric(exp)
 
     # raw data prep
@@ -161,34 +169,33 @@ BridgeRHalfLifeCalcR2Select <- function(inputFile,
     R2_list <- NULL
     half_list <- NULL
     label_list <- NULL
-    data_vector <- c(gene_infor, exp)
     if (half_life_raw == "NA") {
       result_list <- rep("NA", 3)
       data_vector <- c(data_vector, result_list)
       return(data_vector)
-    } else if (half_life_raw < ThresholdHalfLife1) {
+    } else if (as.numeric(half_life_raw) < ThresholdHalfLife1) {
       R2_table <- test_R2(time_point_exp_raw,
-                          CutoffDataPoint2,
-                          half_life_raw,
-                          R2_raw)
+                          TimePointRemoval2,
+                          as.numeric(half_life_raw),
+                          as.numeric(R2_raw))
       R2_table <- R2_table[R2_table$half != "NA",]
       sortlist <- order(R2_table$R2, decreasing = T)
       R2_table <- R2_table[sortlist,]
       # print(R2_table$half)
       # print(R2_table$half[1])
       # print(half_life_raw)
-      if (as.numeric(R2_table$half[1]) > half_life_raw) {
+      if (as.numeric(R2_table$half[1]) > as.numeric(half_life_raw)) {
         data_vector <- c(data_vector, "Raw", R2_raw, half_life_raw)
         return(data_vector)
       }
-    } else if (R2_raw >= R2_criteria) {
+    } else if (as.numeric(R2_raw) >= R2_criteria) {
       data_vector <- c(data_vector, "Raw", R2_raw, half_life_raw)
       return(data_vector)
-    } else if (half_life_raw >= ThresholdHalfLife2){
+    } else if (as.numeric(half_life_raw) >= ThresholdHalfLife2){
       R2_table <- test_R2(time_point_exp_raw,
-                          CutoffDataPoint1,
-                          half_life_raw,
-                          R2_raw)
+                          TimePointRemoval1,
+                          as.numeric(half_life_raw),
+                          as.numeric(R2_raw))
     } else {
       data_vector <- c(data_vector, "Raw", R2_raw, half_life_raw)
       return(data_vector)
@@ -201,6 +208,7 @@ BridgeRHalfLifeCalcR2Select <- function(inputFile,
       R2_table <- R2_table[sortlist,]
       result <- as.vector(as.matrix(R2_table[1,]))
       data_vector <- c(data_vector, result)
+      #print(result)
       return(data_vector)
     }
   }
@@ -228,6 +236,7 @@ BridgeRHalfLifeCalcR2Select <- function(inputFile,
     colnames(result_matrix) <- c(header_label, halflife_infor_header)
     output_matrix <- cbind(output_matrix, result_matrix)
   }
+  output_matrix <- data.table(output_matrix)
 
   if (save == T) {
     write.table(output_matrix, quote = F, sep = "\t", row.names = F,
@@ -236,3 +245,19 @@ BridgeRHalfLifeCalcR2Select <- function(inputFile,
 
   return(output_matrix)
 }
+
+# Testing
+inputFile <- normalized_table
+group = c("Control","Knockdown")
+hour = c(0, 1, 2, 4, 8, 12)
+inforColumn = 4
+CutoffTimePointNumber = 4
+R2_criteria = 0.90
+TimePointRemoval1 = c(1,2)
+TimePointRemoval2 = c(8,12)
+ThresholdHalfLife1 = 3
+ThresholdHalfLife2 = 12
+save = T
+outputPrefix = "BridgeR_5"
+halflife_table <- BridgeRHalfLifeCalcR2Select(normalized_table)
+
