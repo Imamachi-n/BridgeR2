@@ -184,7 +184,9 @@ BridgeRHalfLifeCalcR2Select <- function(inputFile,
       # print(R2_table$half)
       # print(R2_table$half[1])
       # print(half_life_raw)
-      if (as.numeric(R2_table$half[1]) > as.numeric(half_life_raw)) {
+      # print((as.numeric(as.vector(R2_table$half[1])) > as.numeric(half_life_raw)))
+      print(R2_table)
+      if (as.numeric(as.vector(R2_table$half[1])) > as.numeric(half_life_raw)) {
         data_vector <- c(data_vector, "Raw", R2_raw, half_life_raw)
         return(data_vector)
       }
@@ -208,7 +210,6 @@ BridgeRHalfLifeCalcR2Select <- function(inputFile,
       R2_table <- R2_table[sortlist,]
       result <- as.vector(as.matrix(R2_table[1,]))
       data_vector <- c(data_vector, result)
-      #print(result)
       return(data_vector)
     }
   }
@@ -259,5 +260,6 @@ ThresholdHalfLife1 = 3
 ThresholdHalfLife2 = 12
 save = T
 outputPrefix = "BridgeR_5"
+
 halflife_table <- BridgeRHalfLifeCalcR2Select(normalized_table)
 
