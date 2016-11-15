@@ -71,5 +71,18 @@ generate_fig_log10_matrix <- function(exp_data,
   return(fig_data)
 }
 
+#' Parse removed time points
+#'
+#' \code{parse_rm_hr_infor} returns the vector of removed time points.
+#'
+#' @param model Fitting decay model.
+
+parse_rm_hr_infor <- function(model){
+  check <- gsub("Delete_","",model)
+  check <- gsub("hr","",check)
+  check <- as.numeric(strsplit(check,"_")[[1]])
+  return(check)
+}
+
 
 # do.call(data.frame, lapply(fig_data, function(x) replace(x, is.infinite(x), NaN)))
