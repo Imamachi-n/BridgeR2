@@ -1,7 +1,7 @@
-#' Calculate the normalized RPKM for BRIC-seq dataset.
+#' Calculate RNA half-life for each gene.
 #'
-#' \code{BridgeRNormalization} returns the dataframe of
-#' the normalized RPKM values.
+#' \code{BridgeRHalfLifeCalcR2Select} returns the dataframe of
+#' RNA half-life for each gene.
 #'
 #' @param inputFile The vector of tab-delimited matrix file.
 #'
@@ -185,7 +185,7 @@ BridgeRHalfLifeCalcR2Select <- function(inputFile,
       # print(R2_table$half[1])
       # print(half_life_raw)
       # print((as.numeric(as.vector(R2_table$half[1])) > as.numeric(half_life_raw)))
-      print(R2_table)
+      # print(R2_table)
       if (as.numeric(as.vector(R2_table$half[1])) > as.numeric(half_life_raw)) {
         data_vector <- c(data_vector, "Raw", R2_raw, half_life_raw)
         return(data_vector)

@@ -1,7 +1,7 @@
-#' Calculate the normalized RPKM for BRIC-seq dataset.
+#' Calculate Fold-change of RNA half-life and p-value.
 #'
-#' \code{BridgeRNormalization} returns the dataframe of
-#' the normalized RPKM values.
+#' \code{BridgeRPvalueEvaluation} returns the dataframe of
+#' Fold-change of RNA half-life and p-value.
 #'
 #' @param inputFile The vector of tab-delimited matrix file.
 #'
@@ -231,8 +231,10 @@ BridgeRPvalueEvaluation <- function(inputFile,
         ttest_infor <- pvalue_calc(time_point_exp_base, flg)
       } else {
         check <- parse_rm_hr_infor(model)    # util.R
-        time_point_exp_del <- time_point_exp_raw[-check,]
-        time_point_exp_del <- time_point_exp_raw[time_point_exp_raw$exp > 0,]
+        check_index <- sapply(check,
+                              function(t) which(time_point_exp_raw$hour == t))
+        time_point_exp_del <- time_point_exp_raw[-check_index,]
+        time_point_exp_del <- time_point_exp_del[time_point_exp_del$exp > 0,]
         ttest_infor <- pvalue_calc(time_point_exp_del, flg)
       }
 
@@ -248,6 +250,16 @@ BridgeRPvalueEvaluation <- function(inputFile,
     # pvalue estimation
     halflife_comp <- "NA"
     p_value <- "NA"
+
+    if (calibration == TRUE){
+      new_halflife_w_cond2 <- NULL
+      if (flg_na == 1) {
+        new_halflife_w_cond2 <- "NA"
+      } else {
+        new_halflife_w_cond2 <- halflife_w[2]
+      }
+      data_vector[length(data_vector)] <- new_halflife_w_cond2
+    }
 
     if (flg_na == 1){
       data_vector <- append(data_vector, rep("NA", 2))
