@@ -48,6 +48,10 @@ BridgeRCore <- function(inputFile,
   # Calc Normalized RPKM values
   normalized_table <- BridgeRNormalization(test_table, factor_table)
 
+  # Calc RNA half-life for each gene
+  halflife_table <- BridgeRHalfLifeCalcR2Select(normalized_table)
+
+  return(halflife_table)
 }
 
 
