@@ -35,11 +35,11 @@ BridgeReport <- function(inputFile,
   stopifnot(is.character(group) && is.vector(group))
   stopifnot(is.numeric(hour) && is.vector(hour))
   stopifnot(is.character(comparisonFile) && is.vector(comparisonFile))
-  stopifnot(is.character(SearchRowName))
+  stopifnot(is.character(searchRowName))
   stopifnot(is.numeric(inforColumn))
   stopifnot(is.character(color) && is.vector(color))
-  stopifnot(is.numeric(ThresholdHalfLife1))
-  stopifnot(is.numeric(ThresholdHalfLife2))
+  stopifnot(is.numeric(TimePointRemoval1))
+  stopifnot(is.numeric(TimePointRemoval2))
 
   # data infor
   time_points <- length(hour)
@@ -88,7 +88,7 @@ BridgeReport <- function(inputFile,
 
   for (group_index in comp_file_index) {
     # exp index prep
-    infor_st <- 1 + (group_index - 1) * (time_points + InforColumn + 3)
+    infor_st <- 1 + (group_index - 1) * (time_points + inforColumn + 3)
     infor_ed <- inforColumn * group_index + (group_index - 1) * (time_points + 3)
     exp_st <- infor_ed + 1
     exp_ed <- infor_ed + time_points
@@ -111,67 +111,59 @@ BridgeReport <- function(inputFile,
   # 1    11
   # 2    24
 
-  # plot wrapper
-  ggplotly_decay_curve <- function(data){
-    ggplot(data,
-           aes(x = hour, y = exp, colour = factor(Condition)))
-    p <- p + geom_point() + scale_color_manual(values = c("black", "orange"))
-    p <- p + stat_smooth(method = lm, se=FALSE, fullrange=TRUE)
+  # ggplotly wrapper
+  ggplotly_decay_curve <- function(data, predicted, gene_name){
+    p <- ggplot(data,aes(x = as.numeric(hour), y = as.numeric(as.vector(exp)), colour = factor(Condition)))
+    p <- p + geom_point(size=4, shape=19)
+    p <- p + scale_color_manual(values = c("black", "orange"))
+    p <- p + geom_line(data = predicted, size=1.2)
+    p <- p + ggtitle(gene_name)
+    p <- p + xlab("Time (hr)")
+    p <- p + ylab("Relative RPKM (Time0 = 1)")
+    p <- p + scale_x_continuous(breaks=seq(0, 12, by=2), limits = c(0, 12))
+    ybreaks <- c(0.01, 0.1, 1, 10)
+    p <- p + scale_y_log10(breaks=ybreaks, labels=ybreaks, limits=c(0.01, 1.5))
+    p <- p + theme(title = element_text(size=20), axis.title.x = element_text(size=15), axis.title.y = element_text(size=15))
+    p <- p + theme(axis.text.x = element_text(size=15), axis.text.y = element_text(size=15))
+    p <- p + theme(legend.position = "none")
     return(p)
   }
 
   # UI - shiny dashboard
-  ui_body <- tabItem(tabName = "charts",
-                     fluidRow(
-                       tabBox(width = 12,
-                              # first tab
-                              tabPanel('Data Table',
-                                       fluidRow(
-                                         box(title = tagList(icon("table"), "BRIC-seq results"), status = "primary", solidHeader = TRUE, width = 12,
-                                             DT::dataTableOutput('table_BRIC')
-                                         )
-                                       )
-                              ),
-                              # second tab
-                              tabPanel('Plot',
-                                       fluidRow(
-                                         box(title = tagList(icon("check-square"), "Inputs"), status = "primary", solidHeader = TRUE, width = 4, # background = "navy",
-                                             helpText("Select your favorite gene symbol to examine."),
-                                             textInput("text",
-                                                       label = "Input gene symbol",
-                                                       placeholder = "Search..."),
-                                             sliderInput("range_x",
-                                                         label = "X-axis(Time course):",
-                                                         min = 0, max = 12, value = c(0, 12)),
-                                             sliderInput("range_y",
-                                                         label = "Y-axis(Relative RNA remaining):",
-                                                         min = 0.001, max = 10, value = c(0.001,1.5)),
-                                             uiOutput("selectInput1"),
-                                             uiOutput("selectInput2"),
-                                             submitButton(tagList(icon("search"), "Update View"))
-                                         ),
+  ui_body <- dashboardBody(
+    fluidRow(
+      box(title = tagList(icon("check-square"), "Inputs"), status = "primary", solidHeader = TRUE, width = 4, # background = "navy",
+          helpText("Select your favorite gene symbol to examine."),
+          textInput("text",
+                    label = "Input gene symbol",
+                    placeholder = "Search..."),
+          sliderInput("range_x",
+                      label = "X-axis(Time course):",
+                      min = 0, max = 12, value = c(0, 12)),
+          sliderInput("range_y",
+                      label = "Y-axis(Relative RNA remaining):",
+                      min = 0.001, max = 10, value = c(0.001,1.5)),
+          uiOutput("selectInput1"),
+          uiOutput("selectInput2"),
+          submitButton(tagList(icon("search"), "Update View"))
+      ),
 
-                                         box(title = tagList(icon("line-chart"), "RNA decay"), status = "primary", solidHeader = TRUE, width = 8,
-                                             plotOutput("plot1",
-                                                        width = 400, height = 400,
-                                                        click = "plot1_click",
-                                                        brush = brushOpts(id = "plot1_brush"))
-                                         ),
+      box(title = tagList(icon("line-chart"), "RNA decay"), status = "primary", solidHeader = TRUE, width = 8,
+          plotOutput("plot1",
+                       width = 400, height = 400)
+      ),
 
-                                         infoBoxOutput("controlBox"),
-                                         infoBoxOutput("treatedBox")
-                                       ),
-                                       fluidRow(
-                                         box(title = tagList(icon("gear"), "Detail information"), status = "primary", solidHeader = TRUE, width = 12,
-                                             tableOutput("mytable1")
-                                         )
-                                       )
-                              )
-                       )
-                     )
+      infoBoxOutput("controlBox"),
+      infoBoxOutput("treatedBox")
+    ),
+    fluidRow(
+      box(title = tagList(icon("gear"), "Detail information"), status = "primary", solidHeader = TRUE, width = 12,
+          tableOutput("mytable1")
+      )
+    )
   )
 
-  ui <- dashboardBody(
+  ui <- dashboardPage(
     dashboardHeader(title = "BridgeReport"),
     dashboardSidebar(disable = TRUE),
     ui_body
@@ -199,13 +191,23 @@ BridgeReport <- function(inputFile,
     })
 
     # Draw RNA decay curve
-    output$plot1 <- renderPlotly({
+    output$plot1 <- renderPlot({
+      # Start
+      if (input$text == '') {
+        p <- ggplot()
+        return(p)
+      }
+
       # exp data prep
       data <- as.vector(as.matrix(inputFile[input$text]))
       gene_name <- as.character(input$text)
 
+      # data <- as.vector(as.matrix(inputFile["GADD45B"]))
+      # gene_name <- as.character("GADD45B")
+
       # index search
       fig_data <- NULL
+      predicted_data <- NULL
       data_label <- comparisonFile
       for (table_index in 1:length(comp_file_index)) {
         # index infor
@@ -213,7 +215,7 @@ BridgeReport <- function(inputFile,
         model_index <- as.numeric(model_index_vec[table_index])
 
         # extract exp/model data
-        exp <- data[exp_index[1]:exp_index[2]]
+        exp <- as.numeric(as.vector(data[exp_index[1]:exp_index[2]]))
         model <- data[model_index]
 
         # data table
@@ -222,36 +224,46 @@ BridgeReport <- function(inputFile,
         check_index <- sapply(check,
                               function(t) which(time_point_exp_raw$hour == t))
         time_point_exp_del <- time_point_exp_raw[-check_index,]
-        time_point_exp_del <- time_point_exp_del[time_point_exp_del$exp > 0,]
-        label <- rep(data_label[1], nrow(time_point_exp_del))
+        time_point_exp_del <- time_point_exp_del[as.numeric(as.vector(time_point_exp_del$exp)) > 0,]
+        label <- rep(data_label[table_index], nrow(time_point_exp_del))
+
+        # model fitting
+        fitting <- lm(log(as.numeric(as.vector(exp))) ~ hour - 1, time_point_exp_del)
+        predicted <- exp(predict(fitting, data.frame(hour=time_point_exp_del$hour)))
 
         # result
+        predicted_data <- rbind(predicted_data, data.frame(hour=time_point_exp_del$hour,
+                                                           exp=predicted,
+                                                           Condition = label))
         fig_data <- rbind(fig_data,
                           cbind(time_point_exp_del, Condition = label))
       }
 
       # plotting
-      ggplotly_decay_curve(fig_data)
+      return(ggplotly_decay_curve(fig_data, predicted_data, gene_name))
     })
 
     # Information box - condition_1
     output$controlBox <- renderInfoBox({
+      data <- as.vector(as.matrix(inputFile[input$text]))
       infoBox(
-        comparisonFile[1], model_index_vec[1], icon = icon("line-chart"),
+        comparisonFile[1], data[model_index_vec[1]], icon = icon("line-chart"),
         color = "navy", fill = TRUE
       )
     })
 
     # Information box - condition_2
     output$treatedBox <- renderInfoBox({
+      data <- as.vector(as.matrix(inputFile[input$text]))
       infoBox(
-        comparisonFile[2], model_index_vec[2], icon = icon("line-chart"),
+        comparisonFile[2], data[model_index_vec[2]], icon = icon("line-chart"),
         color = "yellow", fill = TRUE
       )
     })
 
     # data table
     output$mytable1 <- renderTable({
+      data <- as.vector(as.matrix(inputFile[input$text]))
       table_data <- NULL
       for (table_index in 1:length(comp_file_index)) {
         # index infor
@@ -271,8 +283,10 @@ BridgeReport <- function(inputFile,
 
       return(table_data)
     })
-
   })
+
+  # Run the application
+  shinyApp(ui = ui, server = server)
 }
 
 
@@ -284,40 +298,16 @@ library(ggplot2)
 library(data.table)
 library(DT)
 
-# ggplot2 testing
-test_exp_table <- data.frame(hour=c(0,1,2,4,8,12, 0,1,2,4,8),
-                             exp=c(1,0.7,0.5,0.3,0.2,0.1, 1,0.9,0.8,0.6,0.3),
-                             label=c("black","black","black","black","black","black",
-                                     "red","red","red","red","red","red"))
+pvalue_table <- fread("C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/BridgeR_6_halflife_pvalue_evaluation.txt", header = T)
+BridgeReport(pvalue_table)
 
-p <- ggplot(test_exp_table,
-            aes(x = hour, y = exp, colour = factor(label)))
-p <- p + geom_point() + scale_color_manual(values = c("black", "orange"))
-p <- p + stat_smooth(method = lm, se=FALSE, fullrange=TRUE)
-ggplotly(p)
+inputFile <- pvalue_table
+group = c("Control","Knockdown")
+hour = c(0, 1, 2, 4, 8, 12)
+comparisonFile = c("Control","Knockdown")
+searchRowName = "symbol"
+inforColumn = 4
+color = c("black","red")
+TimePointRemoval1 = c(1,2)
+TimePointRemoval2 = c(8,12)
 
-# plotly testing
-test <- data.frame(mtcars)
-
-library(shiny)
-library(plotly)
-
-ui <- fluidPage(
-  plotlyOutput("plot")
-  # verbatimTextOutput("event")
-)
-
-server <- function(input, output) {
-
-  # renderPlotly() also understands ggplot2 objects!
-  output$plot <- renderPlotly({
-    plot_ly(test, x = ~mpg, y = ~wt)
-  })
-
-  # output$event <- renderPrint({
-  #   d <- event_data("plotly_hover")
-  #   if (is.null(d)) "Hover on a point!" else d
-  # })
-}
-
-shinyApp(ui, server)
