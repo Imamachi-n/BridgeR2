@@ -111,21 +111,109 @@ BridgeReport <- function(inputFile,
   # 1    11
   # 2    24
 
+  # function_4
+  decay_calc_for_shiny <- function(data,
+                                   comparisonFile,
+                                   comp_file_index,
+                                   select1,
+                                   select2){
+    # index search
+    fig_data <- NULL
+    predicted_data <- NULL
+    table_data <- NULL
+    data_label <- comparisonFile
+    model_list <- c(select1, select2)
+    # model_list <- c("Raw", "Raw")
+
+    for (table_index in 1:length(comp_file_index)) {
+      # index infor
+      exp_index <- as.numeric(exp_index_table[table_index, ])
+      model_index <- as.numeric(model_index_vec[table_index])
+
+      # extract exp/model data
+      exp <- as.numeric(as.vector(data[exp_index[1]:exp_index[2]]))
+      # model <- data[model_index]
+      model <- model_list[table_index]
+
+      # data table
+      time_point_exp_raw <- data.frame(hour, exp)
+      time_point_exp_del <- NULL
+      if (model == "Raw") {
+        time_point_exp_del <- time_point_exp_raw
+      } else {
+        check <- parse_rm_hr_infor(model)    # util.R
+        check_index <- sapply(check,
+                              function(t) which(time_point_exp_raw$hour == t))
+        time_point_exp_del <- time_point_exp_raw[-check_index,]
+      }
+      time_point_exp_del <- time_point_exp_del[as.numeric(as.vector(time_point_exp_del$exp)) > 0,]
+      label <- rep(data_label[table_index], nrow(time_point_exp_del))
+
+      # model fitting
+      fitting <- lm(log(as.numeric(as.vector(exp))) ~ hour - 1, time_point_exp_del)
+      fitting_model <- summary(fitting)
+
+      # halflife calc
+      coef <- -fitting_model$coefficients[1]
+      half_life <- log(2) / coef
+      if(coef < 0 || half_life >= 24){
+        half_life <- 24
+      }
+
+      # R2 calc
+      R2 <- fitting_model$r.squared
+
+      # table data prep
+      table_data <- rbind(table_data, c(exp, R2, half_life))
+
+      # predicted data prep
+      predicted <- exp(predict(fitting, data.frame(hour=time_point_exp_del$hour)))
+
+      # result
+      predicted_data <- rbind(predicted_data, data.frame(hour=time_point_exp_del$hour,
+                                                         exp=predicted,
+                                                         Condition = label))
+      fig_data <- rbind(fig_data,
+                        cbind(time_point_exp_del, Condition = label))
+    }
+
+    # table data
+    hour_label <- sapply(hour, function(t) paste(t, "hr", sep=""))
+    colnames(table_data) <- c(hour_label, "R2", "Half-life")
+    rownames(table_data) <- comparisonFile
+
+    return(list(fig_data, predicted_data, table_data))
+  }
+
   # ggplotly wrapper
-  ggplotly_decay_curve <- function(data, predicted, gene_name){
+  ggplotly_decay_curve <- function(data,
+                                   predicted,
+                                   gene_name,
+                                   y_range){
     p <- ggplot(data,aes(x = as.numeric(hour), y = as.numeric(as.vector(exp)), colour = factor(Condition)))
-    p <- p + geom_point(size=4, shape=19)
+    p <- p + geom_point(size=2.5, shape=19)
     p <- p + scale_color_manual(values = c("black", "orange"))
-    p <- p + geom_line(data = predicted, size=1.2)
+    p <- p + geom_line(data = predicted, size=0.9)
     p <- p + ggtitle(gene_name)
     p <- p + xlab("Time (hr)")
     p <- p + ylab("Relative RPKM (Time0 = 1)")
     p <- p + scale_x_continuous(breaks=seq(0, 12, by=2), limits = c(0, 12))
     ybreaks <- c(0.01, 0.1, 1, 10)
-    p <- p + scale_y_log10(breaks=ybreaks, labels=ybreaks, limits=c(0.01, 1.5))
-    p <- p + theme(title = element_text(size=20), axis.title.x = element_text(size=15), axis.title.y = element_text(size=15))
-    p <- p + theme(axis.text.x = element_text(size=15), axis.text.y = element_text(size=15))
-    p <- p + theme(legend.position = "none")
+    p <- p + scale_y_log10(breaks=ybreaks,
+                           labels=ybreaks,
+                           limits=c(y_range[1], y_range[2]))
+    p <- p + theme(title = element_text(size=15), axis.title.x = element_text(size=12), axis.title.y = element_text(size=12))
+    p <- p + theme(axis.text.x = element_text(size=10), axis.text.y = element_text(size=10))
+    # p <- p + theme(legend.position = "none")
+    return(p)
+  }
+
+  # plotly wrapper
+  plotly_decay_curve <- function(data,
+                                 predicted,
+                                 gene_name){
+    p <- plot_ly(data, x = ~hour, y = ~exp(exp)) %>%
+      layout(yaxis = list(type = "log"))
     return(p)
   }
 
@@ -149,8 +237,8 @@ BridgeReport <- function(inputFile,
       ),
 
       box(title = tagList(icon("line-chart"), "RNA decay"), status = "primary", solidHeader = TRUE, width = 8,
-          plotOutput("plot1",
-                       width = 400, height = 400)
+          plotlyOutput("plot1",
+                       width = 500, height = 400)
       ),
 
       infoBoxOutput("controlBox"),
@@ -191,7 +279,7 @@ BridgeReport <- function(inputFile,
     })
 
     # Draw RNA decay curve
-    output$plot1 <- renderPlot({
+    output$plot1 <- renderPlotly({
       # Start
       if (input$text == '') {
         p <- ggplot()
@@ -202,45 +290,34 @@ BridgeReport <- function(inputFile,
       data <- as.vector(as.matrix(inputFile[input$text]))
       gene_name <- as.character(input$text)
 
-      # data <- as.vector(as.matrix(inputFile["GADD45B"]))
-      # gene_name <- as.character("GADD45B")
+      # data <- as.vector(as.matrix(inputFile["GAPDH"]))
+      # gene_name <- as.character("GAPDH")
 
-      # index search
-      fig_data <- NULL
-      predicted_data <- NULL
-      data_label <- comparisonFile
-      for (table_index in 1:length(comp_file_index)) {
-        # index infor
-        exp_index <- as.numeric(exp_index_table[table_index, ])
-        model_index <- as.numeric(model_index_vec[table_index])
+      data_list <- decay_calc_for_shiny(data,
+                                        comparisonFile,
+                                        comp_file_index,
+                                        input$select1,
+                                        input$select2)
 
-        # extract exp/model data
-        exp <- as.numeric(as.vector(data[exp_index[1]:exp_index[2]]))
-        model <- data[model_index]
+      # data prep
+      fig_data <- data_list[[1]]
+      predicted_data <- data_list[[2]]
+      table_data <- data_list[[3]]
 
-        # data table
-        time_point_exp_raw <- data.frame(hour, exp)
-        check <- parse_rm_hr_infor(model)    # util.R
-        check_index <- sapply(check,
-                              function(t) which(time_point_exp_raw$hour == t))
-        time_point_exp_del <- time_point_exp_raw[-check_index,]
-        time_point_exp_del <- time_point_exp_del[as.numeric(as.vector(time_point_exp_del$exp)) > 0,]
-        label <- rep(data_label[table_index], nrow(time_point_exp_del))
-
-        # model fitting
-        fitting <- lm(log(as.numeric(as.vector(exp))) ~ hour - 1, time_point_exp_del)
-        predicted <- exp(predict(fitting, data.frame(hour=time_point_exp_del$hour)))
-
-        # result
-        predicted_data <- rbind(predicted_data, data.frame(hour=time_point_exp_del$hour,
-                                                           exp=predicted,
-                                                           Condition = label))
-        fig_data <- rbind(fig_data,
-                          cbind(time_point_exp_del, Condition = label))
-      }
+      # table
+      output$mytable1 = renderTable({
+        table_data
+      })
 
       # plotting
-      return(ggplotly_decay_curve(fig_data, predicted_data, gene_name))
+      return(ggplotly(ggplotly_decay_curve(fig_data,
+                                           predicted_data,
+                                           gene_name,
+                                           input$range_y)))
+
+      # return(plotly_decay_curve(fig_data,
+      #                           predicted_data,
+      #                           gene_name))
     })
 
     # Information box - condition_1
@@ -259,29 +336,6 @@ BridgeReport <- function(inputFile,
         comparisonFile[2], data[model_index_vec[2]], icon = icon("line-chart"),
         color = "yellow", fill = TRUE
       )
-    })
-
-    # data table
-    output$mytable1 <- renderTable({
-      data <- as.vector(as.matrix(inputFile[input$text]))
-      table_data <- NULL
-      for (table_index in 1:length(comp_file_index)) {
-        # index infor
-        exp_index <- as.numeric(exp_index_table[table_index, ])
-        R2_index <- as.numeric(model_index_vec[table_index]) + 1
-        halflife_index <- R2_index + 1
-
-        # extract exp/model data
-        exp <- data[exp_index[1]:exp_index[2]]
-        R2 <- data[R2_index]
-        halflife <- data[halflife_index]
-        table_data <- rbind(table_data, c(exp, R2, halflife))
-      }
-      hour_label <- sapply(hour, function(t) paste(t, "hr", sep=""))
-      colnames(table_data) <- c(hour_label, "R2", "Half-life")
-      rownames(table_data) <- comparisonFile
-
-      return(table_data)
     })
   })
 

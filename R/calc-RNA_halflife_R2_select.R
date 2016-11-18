@@ -179,7 +179,7 @@ BridgeRHalfLifeCalcR2Select <- function(inputFile,
                           as.numeric(half_life_raw),
                           as.numeric(R2_raw))
       R2_table <- R2_table[R2_table$half != "NA",]
-      sortlist <- order(R2_table$R2, decreasing = T)
+      sortlist <- order(as.numeric(as.vector(R2_table$R2)), decreasing = T)
       R2_table <- R2_table[sortlist,]
       # print(R2_table$half)
       # print(R2_table$half[1])
@@ -206,7 +206,7 @@ BridgeRHalfLifeCalcR2Select <- function(inputFile,
     # R2 selection
     if (half_life_raw != "NA") {
       R2_table <- R2_table[R2_table$R2 != "NA",]
-      sortlist <- order(R2_table$R2, decreasing = T)
+      sortlist <- order(as.numeric(as.vector(R2_table$R2)), decreasing = T)
       R2_table <- R2_table[sortlist,]
       result <- as.vector(as.matrix(R2_table[1,]))
       data_vector <- c(data_vector, result)
@@ -248,7 +248,7 @@ BridgeRHalfLifeCalcR2Select <- function(inputFile,
 }
 
 # Testing
-inputFile <- normalized_table
+inputFile <- normalized_table[121,]
 group = c("Control","Knockdown")
 hour = c(0, 1, 2, 4, 8, 12)
 inforColumn = 4
