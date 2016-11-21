@@ -37,7 +37,7 @@ BridgeRNormalizationFactors <- function(inputFile,
                                         makeFig = FALSE,
                                         cutoffQuantile = 0.975,
                                         figOutputPrefix = "BridgeR_3_fig_",
-                                        factorOutputPrefix = "BridgeR_3_"){
+                                        factorOutputPrefix = "BridgeR_3"){
   # check arguments
   stopifnot(is.character(group) && is.vector(group))
   stopifnot(is.numeric(hour) && is.vector(hour))
@@ -128,6 +128,97 @@ BridgeRNormalizationFactors <- function(inputFile,
 
   return(quantile_table)
 }
+
+
+#' Calculate normalization factors from house-keeping genes.
+#'
+#' \code{BridgeRNormalizationFactorsHK} returns the dataframe of
+#' the normalization factors from house-keeping genes.
+#'
+#' @param inputFile The vector of tab-delimited matrix file.
+#'
+#' @param group The vector of group names.
+#'
+#' @param hour The vector of time course about BRIC-seq experiment.
+#'
+#' @param inforColumn The number of information columns.
+#'
+#' @param inforHKGenesRow The column number of house-keeping gene information.
+#'
+#' @param HKGenes The vector of house-keeping genes.
+#'
+#' @param save Whether to save the output matrix file.
+#'
+#' @param factorOutputPrefix The prefix for the name of factor output.
+#'
+
+BridgeRNormalizationFactorsHK <- function(inputFile,
+                                          group = c("Control","Knockdown"),
+                                          hour = c(0, 1, 2, 4, 8, 12),
+                                          inforColumn = 4,
+                                          inforHKGenesRow = "symbol",
+                                          HKGenes = c("GAPDH",
+                                                      "PGK1",
+                                                      "PPIA",
+                                                      "ENO1",
+                                                      "ATP5B",
+                                                      "ALDOA"),
+                                          save = T,
+                                          factorOutputPrefix = "BridgeR_3"){
+
+  # check arguments
+  stopifnot(is.character(group) && is.vector(group))
+  stopifnot(is.numeric(hour) && is.vector(hour))
+  stopifnot(is.numeric(inforColumn))
+  stopifnot(is.character(inforHKGenesRow))
+  stopifnot(is.character(HKGenes) && is.vector(HKGenes))
+  stopifnot(is.logical(save))
+  stopifnot(is.character(factorOutputPrefix))
+
+  # data infor
+  group_number <- length(group)
+  time_points <- length(hour)
+
+  # key setting
+  setkeyv(inputFile, inforHKGenesRow)
+
+  # extract house-keeping gene infor
+  hk_input <- inputFile[HKGenes]
+
+  hk_table <- NULL
+  for (group_index in 1:group_number) {
+    # information column
+    infor_st_ed <- generate_infor_st_ed(group_index,
+                                        time_points,
+                                        inforColumn)
+    infor_st <- infor_st_ed[1]
+    infor_ed <- infor_st_ed[2]
+    exp_st <- infor_ed + 1
+    exp_ed <- infor_ed + time_points
+
+    # hour label
+    hour_label <- generate_hour_label(group,
+                                      hour,
+                                      group_index)
+
+    # Calc norm factor
+    exp_data <- hk_input[, exp_st:exp_ed, with = F]
+    hk_data <- t(apply(exp_data, 2,
+                       function(x) prod(as.numeric(x)) ^ (1/length(x))))
+    hk_table <- rbind(hk_table, hk_data)
+  }
+
+  # result
+  rownames(hk_table) <- group
+  if (save == TRUE) {
+    write.table(hk_table, quote = F, sep = "\t",
+                file = paste(factorOutputPrefix,
+                             "_HK_normalization_factor.txt", sep=""))
+  }
+
+  return(hk_table)
+}
+
 
 #' ggplot2 Wrapper function for the distribution of relative RPKM.
 #'
@@ -257,8 +348,11 @@ time_points <- 6
 # inputFile <- test_table
 
 factor_table <- BridgeRNormalizationFactors(test_table)
+factor_table_hk <- BridgeRNormalizationFactorsHK(test_table)
 
 normalized_table <- BridgeRNormalization(test_table, factor_table)
+normalized_table_hk <- BridgeRNormalization(test_table, factor_table_hk,
+                                            outputPrefix = "BridgeR_4_HK")
 
 BridgeRDatasetChecker(inputFile = normalized_table,
                       outputPrefix = "BridgeR_4_normalized")
