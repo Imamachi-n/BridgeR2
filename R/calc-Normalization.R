@@ -347,15 +347,28 @@ time_points <- 6
 # factorOutputPrefix = "BridgeR_3_"
 # inputFile <- test_table
 
-factor_table <- BridgeRNormalizationFactors(test_table)
-factor_table_hk <- BridgeRNormalizationFactorsHK(test_table)
+# testing
+# factor_table <- BridgeRNormalizationFactors(test_table)
+# factor_table_hk <- BridgeRNormalizationFactorsHK(test_table)
 
-normalized_table <- BridgeRNormalization(test_table, factor_table)
-normalized_table_hk <- BridgeRNormalization(test_table, factor_table_hk,
-                                            outputPrefix = "BridgeR_4_HK")
+# normalized_table <- BridgeRNormalization(test_table, factor_table)
+# normalized_table_hk <- BridgeRNormalization(test_table, factor_table_hk,
+#                                             outputPrefix = "BridgeR_4_HK")
 
-BridgeRDatasetChecker(inputFile = normalized_table,
-                      outputPrefix = "BridgeR_4_normalized")
+# BridgeRDatasetChecker(inputFile = normalized_table,
+#                       outputPrefix = "BridgeR_4_normalized")
 
 # quantile_table <- BridgeRNormalizationFactors(test_table,
 #                                               makeFig = T)
+
+# testing2
+group <- c("CTRL_PUM1", "CTRL_PUM2", "CTRL_DKD", "PUM1_KD")
+hour <- c(0,1,2,4,8,12)
+factor_table <- BridgeRNormalizationFactors(test_table,
+                                            group = group,
+                                            hour = hour)
+normalized_table <- BridgeRNormalization(test_table,
+                                         factor_table,
+                                         group = group,
+                                         hour = hour,
+                                         outputPrefix = "data/BridgeR_4_CTRL_conllection")

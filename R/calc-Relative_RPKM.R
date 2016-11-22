@@ -112,6 +112,12 @@ BridgeRDataSetFromMatrix <- function(inputFile,
     return(data_vector)
   }
 
+  # raw data output
+  raw_output_matrix <- input_matrix
+  colnames(raw_output_matrix) <- header_label
+  raw_output_matrix <- data.table(raw_output_matrix)
+
+  # relative data output
   output_matrix <- t(apply((input_matrix), 1, calc_rel_exp))
   colnames(output_matrix) <- header_label
   output_matrix <- data.table(output_matrix)
@@ -119,20 +125,41 @@ BridgeRDataSetFromMatrix <- function(inputFile,
   if (save == T) {
     write.table(output_matrix, quote = F, sep = "\t", row.names = F,
                 file = paste(outputPrefix, "_Relative_expression_dataset.txt", sep=""))
+    write.table(raw_output_matrix, quote = F, sep = "\t", row.names = F,
+                file = paste(outputPrefix, "_Raw_expression_dataset.txt", sep=""))
   }
 
-  return(output_matrix)
+  return(list(raw_output_matrix, output_matrix))
 }
 
 # Test
-library(data.table)
-inputFile <- c("C:/Users/Naoto/OneDrive/Shiny_app/bridger2/data/PUM1_study_siStealth_compatible_genes_RefSeq_result_mRNA.fpkm_table",
-               "C:/Users/Naoto/OneDrive/Shiny_app/bridger2/data/PUM1_study_siPUM1_compatible_genes_RefSeq_result_mRNA.fpkm_table")
+# library(data.table)
+# inputFile <- c("C:/Users/Naoto/OneDrive/Shiny_app/bridger2/data/PUM1_study_siStealth_compatible_genes_RefSeq_result_mRNA.fpkm_table",
+#                "C:/Users/Naoto/OneDrive/Shiny_app/bridger2/data/PUM1_study_siPUM1_compatible_genes_RefSeq_result_mRNA.fpkm_table")
+#
+# group <- c("CTRL","PUM1KD")
+# hour <- c(0,1,2,4,8,12)
+# test_table <- BridgeRDataSetFromMatrix(inputFile = inputFile,
+#                                        group = group,
+#                                        hour = hour,
+#                                        cutoff = 0.1,
+#                                        inforColumn = 4)
 
-group <- c("CTRL","PUM1KD")
+# Test2
+library(data.table)
+inputFile <- c("C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/data/PUM1_study_siStealth_compatible_genes_RefSeq_result_mRNA.fpkm_table",
+               "C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/data/PUM2_study_siCTRL_compatible_genes_RefSeq_result_mRNA.fpkm_table",
+               "C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/data/DKD_study_RefSeq_compatible_genes_RefSeq_result_mRNA.fpkm_table",
+               "C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/data/PUM1_study_siPUM1_compatible_genes_RefSeq_result_mRNA.fpkm_table")
+group <- c("CTRL_PUM1", "CTRL_PUM2", "CTRL_DKD", "PUM1_KD")
 hour <- c(0,1,2,4,8,12)
-test_table <- BridgeRDataSetFromMatrix(inputFile = inputFile,
-                                       group = group,
-                                       hour = hour,
-                                       cutoff = 0.1,
-                                       inforColumn = 4)
+test_list <- BridgeRDataSetFromMatrix(inputFile = inputFile,
+                                      group = group,
+                                      hour = hour,
+                                      cutoff = 0.1,
+                                      inforColumn = 4,
+                                      outputPrefix = "data/BridgeR_1_CTRL_conllection")
+
+raw_table <- test_list[[1]]
+test_table <- test_list[[2]]
+

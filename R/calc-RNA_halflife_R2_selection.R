@@ -261,5 +261,12 @@ ThresholdHalfLife2 = 12
 save = T
 outputPrefix = "BridgeR_5"
 
-halflife_table <- BridgeRHalfLifeCalcR2Select(normalized_table)
+# halflife_table <- BridgeRHalfLifeCalcR2Select(normalized_table)
 
+# Testing
+group <- c("CTRL_PUM1", "CTRL_PUM2", "CTRL_DKD", "PUM1_KD")
+hour <- c(0,1,2,4,8,12)
+halflife_table <- BridgeRHalfLifeCalcR2Select(normalized_table,
+                                              group = group,
+                                              hour = hour,
+                                              outputPrefix = "data/BridgeR_5_CTRL_conllection")

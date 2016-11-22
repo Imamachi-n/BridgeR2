@@ -55,6 +55,7 @@ generate_hour_label <- function(group,
 #' @param exp_data Matrix data.
 #'
 #' @param label The vector of label. e.g. Time course.
+#'
 
 generate_fig_log10_matrix <- function(exp_data,
                                       label){
@@ -76,6 +77,7 @@ generate_fig_log10_matrix <- function(exp_data,
 #' \code{parse_rm_hr_infor} returns the vector of removed time points.
 #'
 #' @param model Fitting decay model.
+#'
 
 parse_rm_hr_infor <- function(model){
   check <- gsub("Delete_","",model)
