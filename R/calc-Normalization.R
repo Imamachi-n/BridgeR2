@@ -25,6 +25,9 @@
 #'
 #' @param factorOutputPrefix The prefix for the name of factor output.
 #'
+#' @export
+#'
+#' @import data.table ggplot2
 
 BridgeRNormalizationFactors <- function(inputFile,
                                         group = c("Control","Knockdown"),
@@ -151,6 +154,9 @@ BridgeRNormalizationFactors <- function(inputFile,
 #'
 #' @param factorOutputPrefix The prefix for the name of factor output.
 #'
+#' @export
+#'
+#' @import data.table
 
 BridgeRNormalizationFactorsHK <- function(inputFile,
                                           group = c("Control","Knockdown"),
@@ -220,13 +226,6 @@ BridgeRNormalizationFactorsHK <- function(inputFile,
 }
 
 
-#' ggplot2 Wrapper function for the distribution of relative RPKM.
-#'
-#' \code{BridgeRCheckLineGraph} is a ggplot2 wrapper for
-#' the distribution of relative RPKM.
-#'
-#' @param fig_data The matrix of relative RPKM.
-
 BridgeRCheckLineGraph <- function(fig_data){
   p <- ggplot(data = data.table(fig_data),
               aes(x = as.numeric(as.vector(label)),
@@ -258,6 +257,10 @@ BridgeRCheckLineGraph <- function(fig_data){
 #' @param save Whether to save the output matrix file.
 #'
 #' @param outputPrefix The prefix for the name of the output.
+#'
+#' @export
+#'
+#' @import data.table
 
 BridgeRNormalization <- function(inputFile,
                                  normFactorFile,
@@ -329,9 +332,9 @@ BridgeRNormalization <- function(inputFile,
 }
 
 # Testing
-library(ggplot2)
-hour <- c(0,1,2,4,8,12)
-time_points <- 6
+# library(ggplot2)
+# hour <- c(0,1,2,4,8,12)
+# time_points <- 6
 # YMin <- -2
 # YMax <- 2
 # group = c("Control","Knockdown")
@@ -348,10 +351,10 @@ time_points <- 6
 # inputFile <- test_table
 
 # testing
-factor_table <- BridgeRNormalizationFactors(test_table)
+# factor_table <- BridgeRNormalizationFactors(test_table)
 # factor_table_hk <- BridgeRNormalizationFactorsHK(test_table)
 
-normalized_table <- BridgeRNormalization(test_table, factor_table)
+# normalized_table <- BridgeRNormalization(test_table, factor_table)
 # normalized_table_hk <- BridgeRNormalization(test_table, factor_table_hk,
 #                                             outputPrefix = "BridgeR_4_HK")
 

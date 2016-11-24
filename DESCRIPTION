@@ -2,13 +2,15 @@ Package: bridger2
 Title: Comprehensive BRIC-seq data analysis tool
 Version: 0.0.0.9000
 Authors@R: person("Naoto", "Imamachi", email = "naoto.imamachi@gmail.com", role = c("aut", "cre"))
-Description:
-    An R library for comprehensive BRIC-seq data analysis.
-Depends: R (>= 3.3.1)
+Description: An R library for comprehensive BRIC-seq data analysis.
+Depends:
+    R (>= 3.3.1)
 Imports:
     data.table,
     ggplot2,
     shiny,
+    shinydashboard,
+    plotly,
     BSDA,
     outliers
 Suggests:
@@ -16,3 +18,4 @@ Suggests:
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 5.0.1

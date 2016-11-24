@@ -20,6 +20,9 @@
 #'
 #' @param TimePointRemoval2 The candicate_2 of time point removal.
 #'
+#' @export
+#'
+#' @import shiny shinydashboard data.table ggplot2 plotly
 
 BridgeReport <- function(inputFile,
                          group = c("Control","Knockdown"),
@@ -345,23 +348,22 @@ BridgeReport <- function(inputFile,
 
 
 
-library(shiny)
-library(shinydashboard)
-library(plotly)
-library(ggplot2)
-library(data.table)
-library(DT)
-
-pvalue_table <- fread("C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/BridgeR_6_halflife_pvalue_evaluation.txt", header = T)
-BridgeReport(pvalue_table)
-
-inputFile <- pvalue_table
-group = c("Control","Knockdown")
-hour = c(0, 1, 2, 4, 8, 12)
-comparisonFile = c("Control","Knockdown")
-searchRowName = "symbol"
-inforColumn = 4
-color = c("black","red")
-TimePointRemoval1 = c(1,2)
-TimePointRemoval2 = c(8,12)
+# library(shiny)
+# library(shinydashboard)
+# library(plotly)
+# library(ggplot2)
+# library(data.table)
+#
+# pvalue_table <- fread("C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/tmp/BridgeR_6_halflife_pvalue_evaluation.txt", header = T)
+# BridgeReport(pvalue_table)
+#
+# inputFile <- pvalue_table
+# group = c("Control","Knockdown")
+# hour = c(0, 1, 2, 4, 8, 12)
+# comparisonFile = c("Control","Knockdown")
+# searchRowName = "symbol"
+# inforColumn = 4
+# color = c("black","red")
+# TimePointRemoval1 = c(1,2)
+# TimePointRemoval2 = c(8,12)
 

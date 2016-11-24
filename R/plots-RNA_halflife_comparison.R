@@ -1,8 +1,20 @@
-#' Draw.
+#' BRIC-seq result checker
 #'
 #' \code{BridgeRResultChecker} returns  .
 #'
+#' @param inputFile The vector of tab-delimited matrix file.
 #'
+#' @param group The vector of group names.
+#'
+#' @param hour The vector of time course about BRIC-seq experiment.
+#'
+#' @param inforColumn The number of information columns.
+#'
+#' @param outputPrefix The prefix for the name of the output.
+#'
+#' @export
+#'
+#' @import data.table ggplot2
 
 BridgeRResultChecker <- function(inputFile,
                                  group = c("Control","Knockdown"),
@@ -117,12 +129,12 @@ draw_halflife_distribution <- function(table, group){
 }
 
 # testing
-library(data.table)
-p_value_table <- fread("C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/tmp/BridgeR_6_halflife_pvalue_evaluation.txt",
-                       header = T)
-inputFile <- p_value_table
-group = c("Control","Knockdown")
-hour = c(0, 1, 2, 4, 8, 12)
-inforColumn = 4
-logScale = F
-outputPrefix = "BridgeR_9"
+# library(data.table)
+# p_value_table <- fread("C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/tmp/BridgeR_6_halflife_pvalue_evaluation.txt",
+#                        header = T)
+# inputFile <- p_value_table
+# group = c("Control","Knockdown")
+# hour = c(0, 1, 2, 4, 8, 12)
+# inforColumn = 4
+# logScale = F
+# outputPrefix = "BridgeR_9"

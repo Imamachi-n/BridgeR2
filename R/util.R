@@ -1,14 +1,3 @@
-#' Detect information column
-#'
-#' \code{generate_infor_st_ed} returns index number for infomation column.
-#'
-#' @param group_index Group index.
-#'
-#' @param time_points The vector of time course about BRIC-seq experiment.
-#'
-#' @param inforColumn The number of information columns.
-#'
-
 generate_infor_st_ed <- function(group_index,
                                  time_points,
                                  inforColumn){
@@ -17,17 +6,6 @@ generate_infor_st_ed <- function(group_index,
   return(c(infor_st, infor_ed))
 }
 
-
-#' Generate hour label
-#'
-#' \code{generate_hour_label} returns index number for hour label.
-#'
-#' @param group Group names.
-#'
-#' @param hour Time course.
-#'
-#' @param sample_index Sample index.
-#'
 
 generate_hour_label <- function(group,
                                 hour,
@@ -48,15 +26,6 @@ generate_hour_label <- function(group,
 }
 
 
-#' Generate matrix data for figure
-#'
-#' \code{generate_fig_log10_matrix} returns dataframe for fig.
-#'
-#' @param exp_data Matrix data.
-#'
-#' @param label The vector of label. e.g. Time course.
-#'
-
 generate_fig_log10_matrix <- function(exp_data,
                                       label){
   exp_data <- t(exp_data)    # Inverse
@@ -72,12 +41,6 @@ generate_fig_log10_matrix <- function(exp_data,
   return(fig_data)
 }
 
-#' Parse removed time points
-#'
-#' \code{parse_rm_hr_infor} returns the vector of removed time points.
-#'
-#' @param model Fitting decay model.
-#'
 
 parse_rm_hr_infor <- function(model){
   check <- gsub("Delete_","",model)
@@ -85,6 +48,3 @@ parse_rm_hr_infor <- function(model){
   check <- as.numeric(strsplit(check,"_")[[1]])
   return(check)
 }
-
-
-# do.call(data.frame, lapply(fig_data, function(x) replace(x, is.infinite(x), NaN)))

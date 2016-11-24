@@ -1,4 +1,67 @@
-#' Calculate relative RPKM expression.
+#' Calculate relative RPKM expression from raw data.
+#'
+#' \code{BridgeRDataSetFromRaw} returns the dataframe of
+#' the relative RPKM values compared with 0hr.
+#'
+#' @param inputFile The vector of tab-delimited matrix file.
+#'
+#' @param group The vector of group names.
+#'
+#' @param hour The vector of time course about BRIC-seq experiment.
+#'
+#' @param cutoff Cutoff value of RPKM at 0hr.
+#'
+#' @param cutoffBelow Cutoff value of RPKM at all time points.
+#'
+#' @param inforColumn The number of information columns.
+#'
+#' @param save Whether to save the output matrix file.
+#'
+#' @param outputPrefix The prefix for the name of the output.
+#'
+#' @export
+#'
+#' @import data.table
+
+BridgeRDataSetFromRaw <- function(inputFile,
+                                  group = c("Control","Knockdown"),
+                                  hour = c(0, 1, 2, 4, 8, 12),
+                                  cutoff = 0.1,
+                                  cutoffBelow = 0.1,
+                                  inforColumn = 4,
+                                  save = T,
+                                  outputPrefix = "BridgeR_1"){
+
+  # check arguments
+  stopifnot(is.character(group) && is.vector(group))
+  stopifnot(is.numeric(hour) && is.vector(hour))
+  stopifnot(is.numeric(cutoff))
+  stopifnot(is.numeric(inforColumn))
+  stopifnot(is.logical(save))
+  stopifnot(is.character(outputPrefix))
+
+  input_matrix <- NULL
+  for (file in inputFile) {
+    if (is.null(input_matrix)) {
+      input_matrix <- suppressWarnings(fread(file, header = T))
+    }else{
+      input_matrix <- cbind(input_matrix,
+                            suppressWarnings(fread(file, header = T)))
+    }
+  }
+
+  output <- BridgeRDataSetInput(inputFile = input_matrix,
+                                group = group,
+                                hour = hour,
+                                cutoff = cutoff,
+                                cutoffBelow = cutoffBelow,
+                                inforColumn = inforColumn,
+                                save = save,
+                                outputPrefix = outputPrefix)
+  return(output)
+}
+
+#' Calculate relative RPKM expression from data.table format.
 #'
 #' \code{BridgeRDataSetFromMatrix} returns the dataframe of
 #' the relative RPKM values compared with 0hr.
@@ -19,6 +82,9 @@
 #'
 #' @param outputPrefix The prefix for the name of the output.
 #'
+#' @export
+#'
+#' @import data.table
 
 BridgeRDataSetFromMatrix <- function(inputFile,
                                      group = c("Control","Knockdown"),
@@ -37,19 +103,32 @@ BridgeRDataSetFromMatrix <- function(inputFile,
   stopifnot(is.logical(save))
   stopifnot(is.character(outputPrefix))
 
+  output <- BridgeRDataSetInput(inputFile = inputFile,
+                                group = group,
+                                hour = hour,
+                                cutoff = cutoff,
+                                cutoffBelow = cutoffBelow,
+                                inforColumn = inforColumn,
+                                save = save,
+                                outputPrefix = outputPrefix)
+  return(output)
+}
+
+BridgeRDataSetInput <- function(inputFile,
+                                group = c("Control","Knockdown"),
+                                hour = c(0, 1, 2, 4, 8, 12),
+                                cutoff = 0.1,
+                                cutoffBelow = 0.1,
+                                inforColumn = 4,
+                                save = T,
+                                outputPrefix = "BridgeR_1"){
+
   # prepare files
   time_points <- length(hour)
   input_file_numbers <- length(inputFile)
 
-  input_matrix <- NULL
-  for (file in inputFile) {
-    if (is.null(input_matrix)) {
-      input_matrix <- suppressWarnings(fread(file, header = T))
-    }else{
-      input_matrix <- cbind(input_matrix,
-                            suppressWarnings(fread(file, header = T)))
-    }
-  }
+  # input file
+  input_matrix <- inputFile
 
   # header label
   header_label <- NULL
@@ -133,17 +212,17 @@ BridgeRDataSetFromMatrix <- function(inputFile,
 }
 
 # Test
-library(data.table)
-inputFile <- c("C:/Users/Naoto/OneDrive/Shiny_app/bridger2/data/PUM1_study_siStealth_compatible_genes_RefSeq_result_mRNA.fpkm_table",
-               "C:/Users/Naoto/OneDrive/Shiny_app/bridger2/data/PUM1_study_siPUM1_compatible_genes_RefSeq_result_mRNA.fpkm_table")
-
-group <- c("CTRL","PUM1KD")
-hour <- c(0,1,2,4,8,12)
-test_list <- BridgeRDataSetFromMatrix(inputFile = inputFile,
-                                       group = group,
-                                       hour = hour,
-                                       cutoff = 0.1,
-                                       inforColumn = 4)
+# library(data.table)
+# inputFile <- c("C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/tmp/PUM1_study_siStealth_compatible_genes_RefSeq_result_mRNA.fpkm_table",
+#                "C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/tmp/PUM1_study_siPUM1_compatible_genes_RefSeq_result_mRNA.fpkm_table")
+#
+# group <- c("CTRL","PUM1KD")
+# hour <- c(0,1,2,4,8,12)
+# test_list <- BridgeRDataSetFromRaw(inputFile = inputFile,
+#                                        group = group,
+#                                        hour = hour,
+#                                        cutoff = 0.1,
+#                                        inforColumn = 4)
 
 # Test2
 # library(data.table)
@@ -159,7 +238,30 @@ test_list <- BridgeRDataSetFromMatrix(inputFile = inputFile,
 #                                       cutoff = 0.1,
 #                                       inforColumn = 4,
 #                                       outputPrefix = "data/BridgeR_1_CTRL_conllection")
+#
+# raw_table <- test_list[[1]]
+# test_table <- test_list[[2]]
 
-raw_table <- test_list[[1]]
-test_table <- test_list[[2]]
-
+# RNA_halflife_comparison <- NULL
+# for (file in c("C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/inst/extdata/Control_1.txt",
+#                "C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/inst/extdata/Knockdown.txt")) {
+#   if (is.null(RNA_halflife_comparison)) {
+#     RNA_halflife_comparison <- suppressWarnings(fread(file, header = T))
+#   }else{
+#     RNA_halflife_comparison <- cbind(RNA_halflife_comparison,
+#                           suppressWarnings(fread(file, header = T)))
+#   }
+# }
+#
+# RNA_halflife_grubbs_test <- NULL
+# for (file in c("C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/inst/extdata/Control_1.txt",
+#                "C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/inst/extdata/Control_2.txt",
+#                "C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/inst/extdata/Control_3.txt",
+#                "C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/inst/extdata/Knockdown.txt")) {
+#   if (is.null(RNA_halflife_grubbs_test)) {
+#     RNA_halflife_grubbs_test <- suppressWarnings(fread(file, header = T))
+#   }else{
+#     RNA_halflife_grubbs_test <- cbind(RNA_halflife_grubbs_test,
+#                           suppressWarnings(fread(file, header = T)))
+#   }
+# }

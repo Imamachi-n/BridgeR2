@@ -16,6 +16,10 @@
 #' @param save Whether to save the output matrix file.
 #'
 #' @param outputPrefix The prefix for the name of the output.
+#'
+#' @export
+#'
+#' @import data.table ggplot2
 
 CalcHalflifeDeviation <- function(inputFile,
                                   rawFile,
@@ -153,6 +157,11 @@ CalcHalflifeDeviation <- function(inputFile,
 #'
 #' @param outputPrefix The prefix for the name of the output.
 #'
+#' @export
+#'
+#' @import data.table ggplot2
+#'
+#' @importFrom outliers grubbs.test
 
 BridgeRGrubbsTest <- function(controlFile,
                               compFile,
@@ -259,13 +268,13 @@ draw_halflife_mean_vs_sd <- function(table){
 
 
 # testing
-library(data.table)
-library(ggplot2)
-library(outliers)
+# library(data.table)
+# library(ggplot2)
+# library(outliers)
 # half_sd_table <- CalcHalflifeDeviation(halflife_table, raw_table,
 #                                        outputPrefix = "data/BridgeR_7")
-
-controlFile <- half_sd_table
-compFile <- fread("C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/BridgeR_6_halflife_pvalue_evaluation.txt", header = T)
-grubbs_table <- BridgeRGrubbsTest(half_sd_table,
-                                  compFile = compFile)
+#
+# controlFile <- half_sd_table
+# compFile <- fread("C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/BridgeR_6_halflife_pvalue_evaluation.txt", header = T)
+# grubbs_table <- BridgeRGrubbsTest(half_sd_table,
+#                                   compFile = compFile)

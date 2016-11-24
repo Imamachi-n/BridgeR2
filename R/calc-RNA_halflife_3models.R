@@ -17,6 +17,9 @@
 #'
 #' @param outputPrefix The prefix for the name of the output.
 #'
+#' @export
+#'
+#' @import data.table
 
 BridgeRHalfLifeCalc3models <- function(inputFile,
                                        group = c("Control","Knockdown"),
@@ -293,8 +296,8 @@ BridgeRHalfLifeCalc3models <- function(inputFile,
 }
 
 # testing
-group = c("Control","Knockdown")
-hour = c(0, 1, 2, 4, 8, 12)
-halflife_table <- BridgeRHalfLifeCalc3models(normalized_table[1:200,],
-                                              group = group,
-                                              hour = hour)
+# group = c("Control","Knockdown")
+# hour = c(0, 1, 2, 4, 8, 12)
+# halflife_table <- BridgeRHalfLifeCalc3models(normalized_table[1:200,],
+#                                               group = group,
+#                                               hour = hour)

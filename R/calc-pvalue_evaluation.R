@@ -18,6 +18,12 @@
 #' @param save Whether to save the output matrix file.
 #'
 #' @param outputPrefix The prefix for the name of the output.
+#'
+#' @export
+#'
+#' @import data.table
+#'
+#' @importFrom BSDA tsum.test
 
 BridgeRPvalueEvaluation <- function(inputFile,
                                     group = c("Control","Knockdown"),
@@ -320,5 +326,5 @@ BridgeRPvalueEvaluation <- function(inputFile,
 }
 
 # testing
-library(BSDA)
-pvalue_table <- BridgeRPvalueEvaluation(halflife_table, calibration = TRUE)
+# library(BSDA)
+# pvalue_table <- BridgeRPvalueEvaluation(halflife_table, calibration = TRUE)

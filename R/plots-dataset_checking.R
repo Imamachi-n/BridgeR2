@@ -1,4 +1,4 @@
-#' Dataset checker
+#' BRIC-seq Dataset checker
 #'
 #' \code{BridgeRDatasetChecker} returns several dataset information
 #'
@@ -14,6 +14,9 @@
 #'
 #' @param outputPrefix The prefix for the name of the output.
 #'
+#' @export
+#'
+#' @import data.table ggplot2
 
 BridgeRDatasetChecker <- function(inputFile,
                                   group = c("Control","Knockdown"),
@@ -153,22 +156,6 @@ BridgeRDatasetChecker <- function(inputFile,
   plot.new()
 }
 
-#' Dataset checker
-#'
-#' \code{BridgeRCheckDataPrep} returns several matrix data for checking.
-#'
-#' @param inputFile Input matrix file.
-#'
-#' @param group The vector of group names.
-#'
-#' @param hour The vector of time course about BRIC-seq experiment.
-#'
-#' @param inforColomn The number of information columns.
-#'
-#' @param percentile Percentile numbers.
-#'
-#' @param outputPrefix The prefix for the name of the output.
-#'
 
 BridgeRCheckDataPrep <- function(inputFile,
                                  group = c("Control","Knockdown"),
@@ -323,5 +310,5 @@ BridgeRCheckdensity <- function(fig_data){
 }
 
 # Testing
-library(ggplot2)
-BridgeRDatasetChecker(inputFile = test_table)
+# library(ggplot2)
+# BridgeRDatasetChecker(inputFile = test_table)
