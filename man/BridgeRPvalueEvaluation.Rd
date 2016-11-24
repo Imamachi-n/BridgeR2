@@ -22,6 +22,8 @@ BridgeRPvalueEvaluation(inputFile, group = c("Control", "Knockdown"),
 
 \item{CutoffTimePointNumber}{The number of minimum time points for calc.}
 
+\item{calibration}{Calibration of RNA half-life.}
+
 \item{save}{Whether to save the output matrix file.}
 
 \item{outputPrefix}{The prefix for the name of the output.}

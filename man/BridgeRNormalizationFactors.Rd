@@ -29,6 +29,8 @@ BridgeRNormalizationFactors(inputFile, group = c("Control", "Knockdown"),
 
 \item{makeFig}{Whether to save the figure of normalization factor.}
 
+\item{cutoffQuantile}{cutoff value of quantile.}
+
 \item{figOutputPrefix}{The prefix for the name of figure output.}
 
 \item{factorOutputPrefix}{The prefix for the name of factor output.}

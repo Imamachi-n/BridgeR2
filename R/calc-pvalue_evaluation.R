@@ -15,6 +15,8 @@
 #'
 #' @param CutoffTimePointNumber The number of minimum time points for calc.
 #'
+#' @param calibration Calibration of RNA half-life.
+#'
 #' @param save Whether to save the output matrix file.
 #'
 #' @param outputPrefix The prefix for the name of the output.

@@ -18,6 +18,8 @@ BridgeReport(inputFile, group = c("Control", "Knockdown"), hour = c(0, 1, 2,
 
 \item{comparisonFile}{The vector of group names.}
 
+\item{searchRowName}{Row name for searching.}
+
 \item{inforColumn}{The number of information columns.}
 
 \item{color}{color of line graph for two decay curve.}
@@ -25,8 +27,6 @@ BridgeReport(inputFile, group = c("Control", "Knockdown"), hour = c(0, 1, 2,
 \item{TimePointRemoval1}{The candicate_1 of time point removal.}
 
 \item{TimePointRemoval2}{The candicate_2 of time point removal.}
-
-\item{SearchRowName}{Row name for searching.}
 }
 \description{
 \code{BridgeReport} returns a shinyapp to draw RNA decay curve.

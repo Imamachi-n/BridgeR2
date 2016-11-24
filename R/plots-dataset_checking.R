@@ -8,7 +8,7 @@
 #'
 #' @param hour The vector of time course about BRIC-seq experiment.
 #'
-#' @param inforColomn The number of information columns.
+#' @param inforColumn The number of information columns.
 #'
 #' @param percentile Percentile numbers.
 #'

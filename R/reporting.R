@@ -10,7 +10,7 @@
 #'
 #' @param comparisonFile The vector of group names.
 #'
-#' @param SearchRowName Row name for searching.
+#' @param searchRowName Row name for searching.
 #'
 #' @param inforColumn The number of information columns.
 #'
@@ -22,7 +22,8 @@
 #'
 #' @export
 #'
-#' @import shiny shinydashboard data.table ggplot2 plotly
+#' @import shiny shinydashboard data.table ggplot2
+#' @importFrom plotly ggplotly renderPlotly plotlyOutput
 
 BridgeReport <- function(inputFile,
                          group = c("Control","Knockdown"),

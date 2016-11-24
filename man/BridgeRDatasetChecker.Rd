@@ -16,11 +16,11 @@ BridgeRDatasetChecker(inputFile, group = c("Control", "Knockdown"),
 
 \item{hour}{The vector of time course about BRIC-seq experiment.}
 
+\item{inforColumn}{The number of information columns.}
+
 \item{percentile}{Percentile numbers.}
 
 \item{outputPrefix}{The prefix for the name of the output.}
-
-\item{inforColomn}{The number of information columns.}
 }
 \description{
 \code{BridgeRDatasetChecker} returns several dataset information

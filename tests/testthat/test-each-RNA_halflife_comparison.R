@@ -16,8 +16,13 @@ test_that("calculating relative RPKM", {
 })
 
 # plots-dataset_cheking.R ##########
-# library(ggplot2)
-# BridgeRDatasetChecker(inputFile = test_table)
+context("BRIC-esq dataset checking")
+
+test("testing input BRIC-seq dataset", {
+  group <- c("CTRL","PUM1KD")
+  hour <- c(0,1,2,4,8,12)
+  BridgeRDatasetChecker(inputFile = test_table)
+})
 
 # calc-Normalization.R ###########
 # library(ggplot2)

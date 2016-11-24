@@ -21,6 +21,8 @@
 #'
 #' @param makeFig Whether to save the figure of normalization factor.
 #'
+#' @param cutoffQuantile cutoff value of quantile.
+#'
 #' @param figOutputPrefix The prefix for the name of figure output.
 #'
 #' @param factorOutputPrefix The prefix for the name of factor output.
@@ -247,6 +249,8 @@ BridgeRCheckLineGraph <- function(fig_data){
 #' the normalized RPKM values.
 #'
 #' @param inputFile The vector of tab-delimited matrix file.
+#'
+#' @param normFactorFile The vector of tab-delimited normalization factor file.
 #'
 #' @param group The vector of group names.
 #'

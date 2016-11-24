@@ -11,6 +11,8 @@ BridgeRNormalization(inputFile, normFactorFile, group = c("Control",
 \arguments{
 \item{inputFile}{The vector of tab-delimited matrix file.}
 
+\item{normFactorFile}{The vector of tab-delimited normalization factor file.}
+
 \item{group}{The vector of group names.}
 
 \item{hour}{The vector of time course about BRIC-seq experiment.}
