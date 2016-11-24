@@ -13,7 +13,8 @@
 # plots-RNA_halflife_comparison.R ........ Plotting functions for RNA half-life comparison
 # reporting.R ............................ Reporting of RNA half-life and fitting curve with shiny and plotly
 # utils.R ................................ Utility codes
-#
+# data.R ................................. Data information
+
 
 #' BridgeR Core function
 #'
@@ -35,7 +36,7 @@
 #'
 #' @export
 #'
-#' @import data.table ggplot
+#' @import data.table ggplot2
 #'
 #' @importFrom BSDA tsum.test
 
