@@ -265,3 +265,5 @@ BridgeRDataSetInput <- function(inputFile,
 #                           suppressWarnings(fread(file, header = T)))
 #   }
 # }
+
+"C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/R/"

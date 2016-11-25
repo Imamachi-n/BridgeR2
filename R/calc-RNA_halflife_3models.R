@@ -103,24 +103,24 @@ BridgeRHalfLifeCalc3models <- function(inputFile,
           }
 
           # Model1: f(t) = exp(-a * t)
-          out1 <- optim(1,optim1)
+          out1 <- suppressWarnings(optim(1,optim1))
           min1 <- out1$value
           a_1 <- out1$par[1]
           half1_1 <- log(2) / a_1
           cor1 <- model1_pred(a_1)
-          out1 <- optim(1,model1_half)
+          out1 <- suppressWarnings(optim(1,model1_half))
           half1_2 <- out1$par
           mRNA_pred <- exp(-a_1 * time_exp_table$hour)
           s2 <- sum((time_exp_table$exp - mRNA_pred)^2) / data_point
           AIC1 <- data_point * log(s2) + (2 * 0)
 
           # Model2: f(t) = (1 - b)exp(-a * t) + b
-          out2 <- optim(c(1,0),optim2)
+          out2 <- suppressWarnings(optim(c(1,0),optim2))
           min2 <- out2$value
           a_2 <- out2$par[1]
           b_2 <- out2$par[2]
           cor2 <- model2_pred(a_2, b_2)
-          out2 <- optim(1,model2_half)
+          out2 <- suppressWarnings(optim(1,model2_half))
           half2 <- out2$par
           if(b_2 >= 0.5){
             half2 <- Inf
@@ -130,13 +130,13 @@ BridgeRHalfLifeCalc3models <- function(inputFile,
           AIC2 <- data_point * log(s2) + (2 * 1)
 
           ###Model3: f(t) = c * exp(-a * t) + (1 - c) * exp(-b * t)###
-          out3 <- optim(c(1,1,0.1),optim3)
+          out3 <- suppressWarnings(optim(c(1,1,0.1),optim3))
           min3 <- out3$value
           a_3 <- out3$par[1]
           b_3 <- out3$par[2]
           c_3 <- out3$par[3]
           cor3 <- model3_pred(a_3,b_3,c_3)
-          out3 <- optim(1,model3_half)
+          out3 <- suppressWarnings(optim(1,model3_half))
           half3 <- out3$par
           mRNA_pred <- c_3 * exp(-a_3 * time_exp_table$hour) + (1.0 - c_3) * exp(-b_3 * time_exp_table$hour)
           s2 <- sum((time_exp_table$exp - mRNA_pred)^2) / data_point

@@ -88,7 +88,7 @@ BridgeRPvalueEvaluation <- function(inputFile,
     halflife_table <- halflife_table[halflife_table$y < 24,]
     test_lm <- lm(y ~ x + 0, data = halflife_table)
     correction_value <- round(as.numeric(test_lm$coefficients), digits = 3)
-    print(paste("Correction value: ", correction_value, sep = ""))
+    # print(paste("Correction value: ", correction_value, sep = ""))
   }
 
   # calc p-value
