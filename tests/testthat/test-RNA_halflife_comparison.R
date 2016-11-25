@@ -44,29 +44,11 @@ test_that("Comparing RNA halflife", {
                                           calibration = TRUE,
                                           save = FALSE)
   expect_is(pvalue_table, "data.table")
+
+  # reporting.R ##########
+  shiny_test <- BridgeReport(pvalue_table)
+  expect_is(shiny_test, "shiny.appobj")
 })
 
 
-
-# calc-halflife_SD.R ##########
-# library(data.table)
-# library(ggplot2)
-# library(outliers)
-# half_sd_table <- CalcHalflifeDeviation(halflife_table, raw_table,
-#                                        outputPrefix = "data/BridgeR_7")
-#
-# controlFile <- half_sd_table
-# grubbs_table <- BridgeRGrubbsTest(half_sd_table,
-#                                   compFile = compFile)
-
-# reporting.R ##########
-# library(shiny)
-# library(shinydashboard)
-# library(plotly)
-# library(ggplot2)
-# library(data.table)
-# BridgeReport(pvalue_table)
-
 # plots-RNA_halflife_comparison.R ##########
-
-

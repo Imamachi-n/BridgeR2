@@ -20,6 +20,7 @@
 #' @export
 #'
 #' @import data.table ggplot2
+#' @importFrom stats sd
 
 CalcHalflifeDeviation <- function(inputFile,
                                   rawFile,
@@ -79,7 +80,7 @@ CalcHalflifeDeviation <- function(inputFile,
 
   # Fig_data: RPKM(mean) vs Half-life(SD)
   p <- drawHalfVariance(halflife_variance)
-  plot(p)
+  suppressWarnings(plot(p))
   dev.off()    # close fig
   plot.new()
 
@@ -116,7 +117,7 @@ CalcHalflifeDeviation <- function(inputFile,
   fig_name <- paste(outputPrefix, "_RPKM_mean_vs_HalfLife_SD.png", sep="")
   png(filename = fig_name, width = 600, height = 600)
   p <- draw_rpkm_vs_halflife_sd(fig_data)
-  plot(p)
+  suppressWarnings(plot(p))
   dev.off()    # close fig
   plot.new()
 
@@ -124,7 +125,7 @@ CalcHalflifeDeviation <- function(inputFile,
   fig_name <- paste(outputPrefix, "_HalfLife_mean_vs_HalfLife_SD.png", sep="")
   png(filename = fig_name, width = 600, height = 600)
   p <- draw_halflife_mean_vs_sd(fig_data)
-  plot(p)
+  suppressWarnings(plot(p))
   dev.off()    # close fig
   plot.new()
 
@@ -208,7 +209,8 @@ BridgeRGrubbsTest <- function(controlFile,
     }
 
     # Grubbs test
-    grubbs_result <- grubbs.test(half_list)
+
+    grubbs_result <- suppressWarnings(grubbs.test(half_list))
     grubbs_alternative <- grubbs_result$alternative
     grubbs_alternative <- gsub("highest value ","",grubbs_alternative)
     grubbs_alternative <- gsub("lowest value ","",grubbs_alternative)

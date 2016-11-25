@@ -83,7 +83,7 @@ BridgeRResultChecker <- function(inputFile,
                     group[1], "_vs_", group[2], ".png", sep="")
   png(filename = fig_name, width = 600, height = 600)
   p <- draw_halflife_comparison(result, group)
-  plot(p)
+  suppressWarnings(plot(p))
   dev.off()    # close fig
   plot.new()
 
@@ -92,7 +92,7 @@ BridgeRResultChecker <- function(inputFile,
                     group[1], "_vs_", group[2], ".png", sep="")
   png(filename = fig_name, width = 600, height = 600)
   p <- draw_halflife_distribution(result_density, group)
-  plot(p)
+  suppressWarnings(plot(p))
   dev.off()    # close fig
   plot.new()
 

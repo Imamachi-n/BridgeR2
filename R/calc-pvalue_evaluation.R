@@ -26,6 +26,7 @@
 #' @import data.table
 #'
 #' @importFrom BSDA tsum.test
+#' @importFrom stats predict
 
 BridgeRPvalueEvaluation <- function(inputFile,
                                     group = c("Control","Knockdown"),

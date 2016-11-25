@@ -22,6 +22,7 @@
 #' @export
 #'
 #' @import data.table
+#' @importFrom utils write.table
 
 BridgeRDataSetFromRaw <- function(inputFile,
                                   group = c("Control","Knockdown"),

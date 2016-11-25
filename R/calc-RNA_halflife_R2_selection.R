@@ -30,6 +30,7 @@
 #' @export
 #'
 #' @import data.table
+#' @importFrom stats lm
 
 
 BridgeRHalfLifeCalcR2Select <- function(inputFile,

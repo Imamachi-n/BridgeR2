@@ -20,6 +20,7 @@
 #' @export
 #'
 #' @import data.table
+#' @importFrom stats optim cor
 
 BridgeRHalfLifeCalc3models <- function(inputFile,
                                        group = c("Control","Knockdown"),

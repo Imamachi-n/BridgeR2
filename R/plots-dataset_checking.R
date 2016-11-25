@@ -17,6 +17,9 @@
 #' @export
 #'
 #' @import data.table ggplot2
+#' @importFrom grDevices dev.off png
+#' @importFrom graphics layout plot plot.new
+#' @importFrom stats quantile
 
 BridgeRDatasetChecker <- function(inputFile,
                                   group = c("Control","Knockdown"),
