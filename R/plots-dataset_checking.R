@@ -70,7 +70,7 @@ BridgeRDatasetChecker <- function(inputFile,
 
     # plotting
     p <- BridgeRCheckScatter(exp_percentile_data)
-    plot(p)
+    suppressWarnings(plot(p))
     dev.off()    # close fig
     plot.new()
 
@@ -83,7 +83,7 @@ BridgeRDatasetChecker <- function(inputFile,
 
     # plotting
     p <- BridgeRCheckboxplot(fig_data)
-    plot(p)
+    suppressWarnings(plot(p))
     dev.off()    # close fig
     plot.new()
 
@@ -95,7 +95,7 @@ BridgeRDatasetChecker <- function(inputFile,
 
     # plotting
     p <- BridgeRCheckdensity(fig_data)
-    plot(p)
+    suppressWarnings(plot(p))
     dev.off()    # close fig
     plot.new()
   }
@@ -131,7 +131,7 @@ BridgeRDatasetChecker <- function(inputFile,
   merge_fig_data$label <- factor(merge_fig_data$label,
                                  levels = label_sort)
   p <- BridgeRCheckboxplot(merge_fig_data)
-  plot(p)
+  suppressWarnings(plot(p))
   dev.off()    # close fig
   plot.new()
 
@@ -151,7 +151,7 @@ BridgeRDatasetChecker <- function(inputFile,
   merge_fig_percentile_data$name <- factor(merge_fig_percentile_data$name,
                                  levels = label_sort)
   p <- BridgeRCheckScatter(merge_fig_percentile_data)
-  plot(p)
+  suppressWarnings(plot(p))
   dev.off()    # close fig
   plot.new()
 }
