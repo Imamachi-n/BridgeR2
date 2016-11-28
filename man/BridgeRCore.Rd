@@ -38,6 +38,8 @@ BridgeRCore(inputFile, inforColumn = 4, group = c("Control", "Knockdown"),
 
 \item{HKGenes}{The vector of house-keeping genes.}
 
+\item{save}{Whether to save the output matrix file.}
+
 \item{outputPrefix}{The prefix for the name of the output.}
 
 \item{normalization}{select "default" (percentile method) or "house_keeping_genes"}
