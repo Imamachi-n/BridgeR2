@@ -30,9 +30,27 @@
 #'
 #' @param RPKMcutoff Cutoff value of RPKM at 0hr.
 #'
-#' @param save Whether to save the output matrix file.
+#' @param cutoffBelow Cutoff value of RPKM at all time points.
+#'
+#' @param YMin Y-axis min.
+#'
+#' @param YMax Y-axis max.
+#'
+#' @param downsamplingFig the factor for downsampling.
+#'
+#' @param makeFig Whether to save the figure of normalization factor.
+#'
+#' @param cutoffQuantile cutoff value of quantile.#' @param save Whether to save the output matrix file.
+#'
+#' @param inforHKGenesRow The column number of house-keeping gene information.
+#'
+#' @param HKGenes The vector of house-keeping genes.
 #'
 #' @param outputPrefix The prefix for the name of the output.
+#'
+#' @param normalization select "default" (percentile method) or "house_keeping_genes"
+#'
+#' @param method select "default" (R2 selection/1st-order) or "3models".
 #'
 #' @export
 #'
@@ -46,8 +64,23 @@ BridgeRCore <- function(inputFile,
                         group = c("Control","Knockdown"),
                         hour = c(0, 1, 2, 4, 8, 12),
                         RPKMcutoff = 0.1,
+                        cutoffBelow = 0.1,
+                        YMin = -2,
+                        YMax = 2,
+                        downsamplingFig = 0.2,
+                        makeFig = FALSE,
+                        cutoffQuantile = 0.975,
+                        inforHKGenesRow = "symbol",
+                        HKGenes = c("GAPDH",
+                                    "PGK1",
+                                    "PPIA",
+                                    "ENO1",
+                                    "ATP5B",
+                                    "ALDOA"),
                         save = TRUE,
-                        outputPrefix = "BridgeR"){
+                        outputPrefix = "BridgeR",
+                        normalization = "default",
+                        method = "default"){
   # check arguments
 
   # Calculate relative RPKM values compared with 0hr.
@@ -55,19 +88,64 @@ BridgeRCore <- function(inputFile,
                                          group = group,
                                          hour = hour,
                                          cutoff = RPKMcutoff,
-                                         inforColumn = inforColumn)
-
-  # Check BRIC-seq datasets
-  BridgeRDatasetChecker(inputFile = test_table)
+                                         cutoffBelow = cutoffBelow,
+                                         inforColumn = inforColumn,
+                                         save = save,
+                                         outputPrefix = paste(outputPrefix,
+                                                              "_1",
+                                                              sep=""))
 
   # Calc Normalization factors
-  factor_table <- BridgeRNormalizationFactors(inputFile = test_table)
+  factor_table <- NULL
+  if (normalization == "default") {
+    factor_table <- BridgeRNormalizationFactors(inputFile = test_table,
+                                                group = group,
+                                                hour = hour,
+                                                inforColumn = inforColumn,
+                                                save = save,
+                                                YMin = YMin,
+                                                YMax = YMax,
+                                                downsamplingFig = downsamplingFig,
+                                                makeFig = makeFig,
+                                                cutoffQuantile = cutoffQuantile,
+                                                figOutputPrefix = paste(outputPrefix,
+                                                                        "_3_fig",
+                                                                        sep=""),
+                                                factorOutputPrefix = paste(outputPrefix,
+                                                                           "_3",
+                                                                           sep=""))
+  } else if (normalization == "house_keeping_genes") {
+    factor_table <- BridgeRNormalizationFactorsHK(inputFile = test_table,
+                                                  group = group,
+                                                  hour = hour,
+                                                  inforColumn = inforColumn,
+                                                  inforHKGenesRow = inforHKGenesRow,
+                                                  HKGenes = HKGenes,
+                                                  save = save,
+                                                  factorOutputPrefix = paste(outputPrefix,
+                                                                             "_3_HK",
+                                                                             sep=""))
+  }
+
 
   # Calc Normalized RPKM values
-  normalized_table <- BridgeRNormalization(test_table, factor_table)
+  normalized_table <- BridgeRNormalization(test_table,
+                                           factor_table,
+                                           group = group,
+                                           hour = hour,
+                                           inforColumn = inforColumn,
+                                           save = save,
+                                           outputPrefix = paste(outputPrefix,
+                                                                "_4",
+                                                                sep=""))
 
   # Calc RNA half-life for each gene
-  halflife_table <- BridgeRHalfLifeCalcR2Select(normalized_table)
+  halflife_table <- NULL
+  if (method == "default") {
+    halflife_table <- BridgeRHalfLifeCalcR2Select(normalized_table)
+  } else if (method == "3models") {
+    halflife_table <- BridgeRHalfLifeCalc3models(normalized_table)
+  }
 
   return(halflife_table)
 }

@@ -10,6 +10,8 @@
 #'
 #' @param inforColumn The number of information columns.
 #'
+#' @param save Whether to save the output fig file.
+#'
 #' @param outputPrefix The prefix for the name of the output.
 #'
 #' @export
@@ -20,13 +22,14 @@ BridgeRResultChecker <- function(inputFile,
                                  group = c("Control","Knockdown"),
                                  hour = c(0, 1, 2, 4, 8, 12),
                                  inforColumn = 4,
+                                 save = T,
                                  outputPrefix = "BridgeR_9"){
 
   # check arguments
   stopifnot(is.character(group) && is.vector(group))
   stopifnot(is.numeric(hour) && is.vector(hour))
   stopifnot(is.numeric(inforColumn))
-  stopifnot(is.logical(logScale))
+  stopifnot(is.logical(save))
   stopifnot(is.character(outputPrefix))
 
   # file infor prep
@@ -81,21 +84,31 @@ BridgeRResultChecker <- function(inputFile,
   # RNA half-life comparison
   fig_name <- paste(outputPrefix, "_RNA_HalfLife_comparison_",
                     group[1], "_vs_", group[2], ".png", sep="")
-  png(filename = fig_name, width = 600, height = 600)
-  p <- draw_halflife_comparison(result, group)
-  suppressWarnings(plot(p))
-  dev.off()    # close fig
-  plot.new()
+  if (save == TRUE) {
+    png(filename = fig_name, width = 600, height = 600)
+  }
+  p1 <- draw_halflife_comparison(result, group)
+  if (save == TRUE) {
+    suppressWarnings(plot(p1))
+    dev.off()    # close fig
+    plot.new()
+
+  }
 
   # RNA half-life distribution
   fig_name <- paste(outputPrefix, "_RNA_HalfLife_distribution_",
                     group[1], "_vs_", group[2], ".png", sep="")
-  png(filename = fig_name, width = 600, height = 600)
-  p <- draw_halflife_distribution(result_density, group)
-  suppressWarnings(plot(p))
-  dev.off()    # close fig
-  plot.new()
+  if (save == TRUE) {
+    png(filename = fig_name, width = 600, height = 600)
+  }
+  p2 <- draw_halflife_distribution(result_density, group)
+  if (save == TRUE) {
+    suppressWarnings(plot(p2))
+    dev.off()    # close fig
+    plot.new()
+  }
 
+  return(list(p1, p2))
 }
 
 

@@ -16,7 +16,9 @@ test_that("Comparing RNA halflife", {
   expect_is(test_table, "data.table")
 
   # plots-dataset_cheking.R ##########
-  # BridgeRDatasetChecker(inputFile = test_table)
+  fig_list_raw <- BridgeRDatasetChecker(inputFile = test_table,
+                                        save = FALSE)
+  expect_is(fig_list_raw, "list")
 
   # calc-Normalization.R ###########
   factor_table <- BridgeRNormalizationFactors(test_table,
@@ -27,7 +29,9 @@ test_that("Comparing RNA halflife", {
   expect_is(normalized_table, "data.table")
 
   # plots-dataset_cheking.R ##########
-  # BridgeRDatasetChecker(inputFile = normalized_table)
+  fig_list_norm <- BridgeRDatasetChecker(inputFile = normalized_table,
+                                         save = FALSE)
+  expect_is(fig_list_norm, "list")
 
   # calc-RNA_halflife_3models.R ##########
   halflife_table <- BridgeRHalfLifeCalc3models(normalized_table,
@@ -48,7 +52,10 @@ test_that("Comparing RNA halflife", {
   # reporting.R ##########
   shiny_test <- BridgeReport(pvalue_table)
   expect_is(shiny_test, "shiny.appobj")
+
+  # plots-RNA_halflife_comparison.R ##########
+  result_fig <- BridgeRResultChecker(pvalue_table)
+  expect_is(result_fig, "list")
 })
 
 
-# plots-RNA_halflife_comparison.R ##########

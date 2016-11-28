@@ -41,7 +41,7 @@ BridgeRNormalizationFactors <- function(inputFile,
                                         downsamplingFig = 0.2,
                                         makeFig = FALSE,
                                         cutoffQuantile = 0.975,
-                                        figOutputPrefix = "BridgeR_3_fig_",
+                                        figOutputPrefix = "BridgeR_3_fig",
                                         factorOutputPrefix = "BridgeR_3"){
   # check arguments
   stopifnot(is.character(group) && is.vector(group))

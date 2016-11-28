@@ -12,6 +12,8 @@
 #'
 #' @param percentile Percentile numbers.
 #'
+#' @param save Whether to save the output fig file.
+#'
 #' @param outputPrefix The prefix for the name of the output.
 #'
 #' @export
@@ -37,6 +39,7 @@ BridgeRDatasetChecker <- function(inputFile,
                                                  0.20,
                                                  0.10,
                                                  0.05),
+                                  save = T,
                                   outputPrefix = "BridgeR_2_raw"){
 
   # prepare datasets
@@ -69,38 +72,51 @@ BridgeRDatasetChecker <- function(inputFile,
     fig_name <- paste(outputPrefix, "_Scattered_percentile_",
                       group[sample_index], ".png", sep="")
     fig_width <- 150 * (time_points - 1)
-    png(filename = fig_name, width = fig_width, height = 1200)
+    if (save == TRUE) {
+      png(filename = fig_name, width = fig_width, height = 1200)
+    }
+
 
     # plotting
-    p <- BridgeRCheckScatter(exp_percentile_data)
-    suppressWarnings(plot(p))
-    dev.off()    # close fig
-    plot.new()
+    p1 <- BridgeRCheckScatter(exp_percentile_data)
+    if (save == TRUE) {
+      suppressWarnings(plot(p1))
+      dev.off()    # close fig
+      plot.new()
+    }
 
     # boxplot plot fig - percentile
     # Fig information
     fig_name <- paste(outputPrefix, "_Boxplot_Rel_RPKM_",
                       group[sample_index],".png",sep="")
     # fig_width <- 150 * (time_points - 1)
-    png(filename = fig_name, width = fig_width, height = 1200)
+    if (save == TRUE) {
+      png(filename = fig_name, width = fig_width, height = 1200)
+    }
 
     # plotting
-    p <- BridgeRCheckboxplot(fig_data)
-    suppressWarnings(plot(p))
-    dev.off()    # close fig
-    plot.new()
+    p2 <- BridgeRCheckboxplot(fig_data)
+    if (save == TRUE) {
+      suppressWarnings(plot(p2))
+      dev.off()    # close fig
+      plot.new()
+    }
 
     # density plot fig - relative RNA remaining compared with 0hr
     # Fig information
     fig_name <- paste(outputPrefix, "_density_Rel_RPKM_",
                       group[sample_index],".png",sep="")
-    png(filename = fig_name, width = 1300, height = 1000)
+    if (save == TRUE) {
+      png(filename = fig_name, width = 1300, height = 1000)
+    }
 
     # plotting
-    p <- BridgeRCheckdensity(fig_data)
-    suppressWarnings(plot(p))
-    dev.off()    # close fig
-    plot.new()
+    p3 <- BridgeRCheckdensity(fig_data)
+    if (save == TRUE) {
+      suppressWarnings(plot(p3))
+      dev.off()    # close fig
+      plot.new()
+    }
   }
 
   # boxplot plot fig for all samples
@@ -127,16 +143,20 @@ BridgeRDatasetChecker <- function(inputFile,
 
   # Fig information
   fig_width <- 150 * (time_points - 1) * sample_size
-  png(filename=fig_name, width = fig_width, height = 1200)
+  if (save == TRUE) {
+    png(filename=fig_name, width = fig_width, height = 1200)
+  }
 
   # plotting
   label_sort <- sort(unique(as.character(merge_fig_data$label)))
   merge_fig_data$label <- factor(merge_fig_data$label,
                                  levels = label_sort)
-  p <- BridgeRCheckboxplot(merge_fig_data)
-  suppressWarnings(plot(p))
-  dev.off()    # close fig
-  plot.new()
+  p4 <- BridgeRCheckboxplot(merge_fig_data)
+  if (save == TRUE) {
+    suppressWarnings(plot(p4))
+    dev.off()    # close fig
+    plot.new()
+  }
 
   # scattered plot fig for all samples
   # prepare fig_name
@@ -147,16 +167,22 @@ BridgeRDatasetChecker <- function(inputFile,
 
   # Fig information
   fig_width <- 110 * (time_points - 1) * sample_size
-  png(filename=fig_name, width = fig_width, height = 1200)
+  if (save == TRUE) {
+    png(filename=fig_name, width = fig_width, height = 1200)
+  }
 
   # plotting
   label_sort <- sort(unique(as.character(merge_fig_percentile_data$name)))
   merge_fig_percentile_data$name <- factor(merge_fig_percentile_data$name,
                                  levels = label_sort)
-  p <- BridgeRCheckScatter(merge_fig_percentile_data)
-  suppressWarnings(plot(p))
-  dev.off()    # close fig
-  plot.new()
+  p5 <- BridgeRCheckScatter(merge_fig_percentile_data)
+  if (save == TRUE) {
+    suppressWarnings(plot(p5))
+    dev.off()    # close fig
+    plot.new()
+  }
+
+  return(list(p1, p2, p3, p4, p5))
 }
 
 

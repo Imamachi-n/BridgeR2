@@ -15,6 +15,8 @@
 #'
 #' @param save Whether to save the output matrix file.
 #'
+#' @param figSave Whether to save the output fig file.
+#'
 #' @param outputPrefix The prefix for the name of the output.
 #'
 #' @export
@@ -29,6 +31,7 @@ CalcHalflifeDeviation <- function(inputFile,
                                             "CTRL_DKD"),
                                   hour = c(0, 1, 2, 4, 8, 12),
                                   save = T,
+                                  figSave = F,
                                   inforColumn = 4,
                                   outputPrefix = "BridgeR_7"){
 
@@ -74,15 +77,18 @@ CalcHalflifeDeviation <- function(inputFile,
   halflife_variance <- as.data.frame(halflife_variance)
 
   # density plot fig - RNA half-life variancer
-  # Fig information
-  fig_name <- paste(outputPrefix, "_Histgram_Halflife_variance.png", sep="")
-  png(filename = fig_name, width = 600, height = 600)
+  if (figSave == TRUE) {
+    # Fig information
+    fig_name <- paste(outputPrefix, "_Histgram_Halflife_variance.png", sep="")
+    png(filename = fig_name, width = 600, height = 600)
 
-  # Fig_data: RPKM(mean) vs Half-life(SD)
-  p <- drawHalfVariance(halflife_variance)
-  suppressWarnings(plot(p))
-  dev.off()    # close fig
-  plot.new()
+    # Fig_data: RPKM(mean) vs Half-life(SD)
+    p <- drawHalfVariance(halflife_variance)
+    suppressWarnings(plot(p))
+    dev.off()    # close fig
+    plot.new()
+  }
+
 
   # Calc RNA half-life/RPKM mean & SD
   test_func <- function(vector){
@@ -114,20 +120,24 @@ CalcHalflifeDeviation <- function(inputFile,
                              header_label)
 
   # Fig_data: RPKM(mean) vs Half-life(SD)
-  fig_name <- paste(outputPrefix, "_RPKM_mean_vs_HalfLife_SD.png", sep="")
-  png(filename = fig_name, width = 600, height = 600)
-  p <- draw_rpkm_vs_halflife_sd(fig_data)
-  suppressWarnings(plot(p))
-  dev.off()    # close fig
-  plot.new()
+  if (figSave == TRUE) {
+    fig_name <- paste(outputPrefix, "_RPKM_mean_vs_HalfLife_SD.png", sep="")
+    png(filename = fig_name, width = 600, height = 600)
+    p <- draw_rpkm_vs_halflife_sd(fig_data)
+    suppressWarnings(plot(p))
+    dev.off()    # close fig
+    plot.new()
+  }
 
   # Fig_data: Half-life(mean) vs Half-life(SD)
-  fig_name <- paste(outputPrefix, "_HalfLife_mean_vs_HalfLife_SD.png", sep="")
-  png(filename = fig_name, width = 600, height = 600)
-  p <- draw_halflife_mean_vs_sd(fig_data)
-  suppressWarnings(plot(p))
-  dev.off()    # close fig
-  plot.new()
+  if (figSave == TRUE) {
+    fig_name <- paste(outputPrefix, "_HalfLife_mean_vs_HalfLife_SD.png", sep="")
+    png(filename = fig_name, width = 600, height = 600)
+    p <- draw_halflife_mean_vs_sd(fig_data)
+    suppressWarnings(plot(p))
+    dev.off()    # close fig
+    plot.new()
+  }
 
   if (save == TRUE) {
     write.table(result_data, quote = F, sep = "\t", row.names = F,
