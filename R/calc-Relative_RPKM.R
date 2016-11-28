@@ -266,5 +266,14 @@ BridgeRDataSetInput <- function(inputFile,
 #                           suppressWarnings(fread(file, header = T)))
 #   }
 # }
-
-"C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/R/"
+#
+# RNA_halflife_comparison_HK <- NULL
+# for (file in c("C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/inst/extdata/Control_1_HK_plus.txt",
+#                "C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/inst/extdata/Knockdown_HK_plus.txt")) {
+#   if (is.null(RNA_halflife_comparison_HK)) {
+#     RNA_halflife_comparison_HK <- suppressWarnings(fread(file, header = T))
+#   }else{
+#     RNA_halflife_comparison_HK <- cbind(RNA_halflife_comparison_HK,
+#                           suppressWarnings(fread(file, header = T)))
+#   }
+# }

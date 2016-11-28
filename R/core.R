@@ -46,6 +46,18 @@
 #'
 #' @param HKGenes The vector of house-keeping genes.
 #'
+#' @param CutoffTimePointNumber The number of minimum time points for calc.
+#'
+#' @param R2_criteria The cutoff of R2 for R2 selection.
+#'
+#' @param TimePointRemoval1 The candicate_1 of time point removal.
+#'
+#' @param TimePointRemoval2 The candicate_2 of time point removal.
+#'
+#' @param ThresholdHalfLife1 The cutoff of TimePointRemoval1.
+#'
+#' @param ThresholdHalfLife2 The cutoff of TimePointRemoval2.
+#'
 #' @param save Whether to save the output matrix file.
 #'
 #' @param outputPrefix The prefix for the name of the output.
@@ -79,6 +91,12 @@ BridgeRCore <- function(inputFile,
                                     "ENO1",
                                     "ATP5B",
                                     "ALDOA"),
+                        CutoffTimePointNumber = 4,
+                        R2_criteria = 0.9,
+                        TimePointRemoval1 = c(1,2),
+                        TimePointRemoval2 = c(8,12),
+                        ThresholdHalfLife1 = 3,
+                        ThresholdHalfLife2 = 12,
                         save = TRUE,
                         outputPrefix = "BridgeR",
                         normalization = "default",
@@ -96,6 +114,8 @@ BridgeRCore <- function(inputFile,
                                          outputPrefix = paste(outputPrefix,
                                                               "_1",
                                                               sep=""))
+  raw_table <- test_table[[1]]
+  test_table <- test_table[[2]]
 
   # Calc Normalization factors
   factor_table <- NULL
@@ -144,12 +164,59 @@ BridgeRCore <- function(inputFile,
   # Calc RNA half-life for each gene
   halflife_table <- NULL
   if (method == "default") {
-    halflife_table <- BridgeRHalfLifeCalcR2Select(normalized_table)
+    halflife_table <- BridgeRHalfLifeCalcR2Select(normalized_table,
+                                                  group = group,
+                                                  hour = hour,
+                                                  inforColumn = inforColumn,
+                                                  CutoffTimePointNumber = CutoffTimePointNumber,
+                                                  R2_criteria = R2_criteria, # 0.90,
+                                                  TimePointRemoval1 = TimePointRemoval1,
+                                                  TimePointRemoval2 = TimePointRemoval2,
+                                                  ThresholdHalfLife1 = ThresholdHalfLife1,
+                                                  ThresholdHalfLife2 = ThresholdHalfLife2,
+                                                  save = save,
+                                                  outputPrefix = paste(outputPrefix,
+                                                                       "_5",
+                                                                       sep=""))
   } else if (method == "3models") {
-    halflife_table <- BridgeRHalfLifeCalc3models(normalized_table)
+    halflife_table <- BridgeRHalfLifeCalc3models(normalized_table,
+                                                 group = group,
+                                                 hour = hour,
+                                                 inforColumn = inforColumn,
+                                                 CutoffTimePointNumber = CutoffTimePointNumber,
+                                                 save = save,
+                                                 outputPrefix = paste(outputPrefix,
+                                                                      "_5",
+                                                                      sep=""))
   }
 
   return(halflife_table)
 }
 
-
+inforColumn = 4
+group = c("Control","Knockdown")
+hour = c(0, 1, 2, 4, 8, 12)
+RPKMcutoff = 0.1
+cutoffBelow = 0.1
+YMin = -2
+YMax = 2
+downsamplingFig = 0.2
+makeFig = FALSE
+cutoffQuantile = 0.975
+inforHKGenesRow = "symbol"
+HKGenes = c("GAPDH",
+            "PGK1",
+            "PPIA",
+            "ENO1",
+            "ATP5B",
+            "ALDOA")
+CutoffTimePointNumber = 4
+R2_criteria = 0.9
+TimePointRemoval1 = c(1,2)
+TimePointRemoval2 = c(8,12)
+ThresholdHalfLife1 = 3
+ThresholdHalfLife2 = 12
+save = TRUE
+outputPrefix = "BridgeR"
+normalization = "default"
+method = "default"

@@ -54,7 +54,8 @@ test_that("Comparing RNA halflife", {
   expect_is(shiny_test, "shiny.appobj")
 
   # plots-RNA_halflife_comparison.R ##########
-  result_fig <- BridgeRResultChecker(pvalue_table)
+  result_fig <- BridgeRResultChecker(pvalue_table,
+                                     save = FALSE)
   expect_is(result_fig, "list")
 })
 

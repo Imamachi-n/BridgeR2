@@ -8,7 +8,9 @@ BridgeRCore(inputFile, inforColumn = 4, group = c("Control", "Knockdown"),
   hour = c(0, 1, 2, 4, 8, 12), RPKMcutoff = 0.1, cutoffBelow = 0.1,
   YMin = -2, YMax = 2, downsamplingFig = 0.2, makeFig = FALSE,
   cutoffQuantile = 0.975, inforHKGenesRow = "symbol", HKGenes = c("GAPDH",
-  "PGK1", "PPIA", "ENO1", "ATP5B", "ALDOA"), save = TRUE,
+  "PGK1", "PPIA", "ENO1", "ATP5B", "ALDOA"), CutoffTimePointNumber = 4,
+  R2_criteria = 0.9, TimePointRemoval1 = c(1, 2), TimePointRemoval2 = c(8,
+  12), ThresholdHalfLife1 = 3, ThresholdHalfLife2 = 12, save = TRUE,
   outputPrefix = "BridgeR", normalization = "default", method = "default")
 }
 \arguments{
@@ -37,6 +39,18 @@ BridgeRCore(inputFile, inforColumn = 4, group = c("Control", "Knockdown"),
 \item{inforHKGenesRow}{The column number of house-keeping gene information.}
 
 \item{HKGenes}{The vector of house-keeping genes.}
+
+\item{CutoffTimePointNumber}{The number of minimum time points for calc.}
+
+\item{R2_criteria}{The cutoff of R2 for R2 selection.}
+
+\item{TimePointRemoval1}{The candicate_1 of time point removal.}
+
+\item{TimePointRemoval2}{The candicate_2 of time point removal.}
+
+\item{ThresholdHalfLife1}{The cutoff of TimePointRemoval1.}
+
+\item{ThresholdHalfLife2}{The cutoff of TimePointRemoval2.}
 
 \item{save}{Whether to save the output matrix file.}
 
