@@ -6,7 +6,7 @@
 \usage{
 BridgeRDatasetChecker(inputFile, group = c("Control", "Knockdown"),
   hour = c(0, 1, 2, 4, 8, 12), inforColumn = 4, percentile = c(0.99, 0.95,
-  0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.05),
+  0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.05), save = T,
   outputPrefix = "BridgeR_2_raw")
 }
 \arguments{
@@ -19,6 +19,8 @@ BridgeRDatasetChecker(inputFile, group = c("Control", "Knockdown"),
 \item{inforColumn}{The number of information columns.}
 
 \item{percentile}{Percentile numbers.}
+
+\item{save}{Whether to save the output fig file.}
 
 \item{outputPrefix}{The prefix for the name of the output.}
 }

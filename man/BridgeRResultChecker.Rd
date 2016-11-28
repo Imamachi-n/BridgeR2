@@ -5,7 +5,7 @@
 \title{BRIC-seq result checker}
 \usage{
 BridgeRResultChecker(inputFile, group = c("Control", "Knockdown"),
-  hour = c(0, 1, 2, 4, 8, 12), inforColumn = 4,
+  hour = c(0, 1, 2, 4, 8, 12), inforColumn = 4, save = T,
   outputPrefix = "BridgeR_9")
 }
 \arguments{
@@ -16,6 +16,8 @@ BridgeRResultChecker(inputFile, group = c("Control", "Knockdown"),
 \item{hour}{The vector of time course about BRIC-seq experiment.}
 
 \item{inforColumn}{The number of information columns.}
+
+\item{save}{Whether to save the output fig file.}
 
 \item{outputPrefix}{The prefix for the name of the output.}
 }

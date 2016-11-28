@@ -5,8 +5,11 @@
 \title{BridgeR Core function}
 \usage{
 BridgeRCore(inputFile, inforColumn = 4, group = c("Control", "Knockdown"),
-  hour = c(0, 1, 2, 4, 8, 12), RPKMcutoff = 0.1, save = TRUE,
-  outputPrefix = "BridgeR")
+  hour = c(0, 1, 2, 4, 8, 12), RPKMcutoff = 0.1, cutoffBelow = 0.1,
+  YMin = -2, YMax = 2, downsamplingFig = 0.2, makeFig = FALSE,
+  cutoffQuantile = 0.975, inforHKGenesRow = "symbol", HKGenes = c("GAPDH",
+  "PGK1", "PPIA", "ENO1", "ATP5B", "ALDOA"), save = TRUE,
+  outputPrefix = "BridgeR", normalization = "default", method = "default")
 }
 \arguments{
 \item{inputFile}{The vector of tab-delimited matrix file.}
@@ -19,9 +22,27 @@ BridgeRCore(inputFile, inforColumn = 4, group = c("Control", "Knockdown"),
 
 \item{RPKMcutoff}{Cutoff value of RPKM at 0hr.}
 
-\item{save}{Whether to save the output matrix file.}
+\item{cutoffBelow}{Cutoff value of RPKM at all time points.}
+
+\item{YMin}{Y-axis min.}
+
+\item{YMax}{Y-axis max.}
+
+\item{downsamplingFig}{the factor for downsampling.}
+
+\item{makeFig}{Whether to save the figure of normalization factor.}
+
+\item{cutoffQuantile}{cutoff value of quantile.#' @param save Whether to save the output matrix file.}
+
+\item{inforHKGenesRow}{The column number of house-keeping gene information.}
+
+\item{HKGenes}{The vector of house-keeping genes.}
 
 \item{outputPrefix}{The prefix for the name of the output.}
+
+\item{normalization}{select "default" (percentile method) or "house_keeping_genes"}
+
+\item{method}{select "default" (R2 selection/1st-order) or "3models".}
 }
 \description{
 \code{BridgeRCore} returns RNA half-life for each gene.

@@ -7,7 +7,7 @@
 BridgeRNormalizationFactors(inputFile, group = c("Control", "Knockdown"),
   hour = c(0, 1, 2, 4, 8, 12), inforColumn = 4, save = T, YMin = -2,
   YMax = 2, downsamplingFig = 0.2, makeFig = FALSE,
-  cutoffQuantile = 0.975, figOutputPrefix = "BridgeR_3_fig_",
+  cutoffQuantile = 0.975, figOutputPrefix = "BridgeR_3_fig",
   factorOutputPrefix = "BridgeR_3")
 }
 \arguments{

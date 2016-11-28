@@ -5,8 +5,8 @@
 \title{Calculate RNA half-life for each gene.}
 \usage{
 CalcHalflifeDeviation(inputFile, rawFile, group = c("CTRL_PUM1", "CTRL_PUM2",
-  "CTRL_DKD"), hour = c(0, 1, 2, 4, 8, 12), save = T, inforColumn = 4,
-  outputPrefix = "BridgeR_7")
+  "CTRL_DKD"), hour = c(0, 1, 2, 4, 8, 12), save = T, figSave = F,
+  inforColumn = 4, outputPrefix = "BridgeR_7")
 }
 \arguments{
 \item{inputFile}{The dataframe of halflife table.}
@@ -18,6 +18,8 @@ CalcHalflifeDeviation(inputFile, rawFile, group = c("CTRL_PUM1", "CTRL_PUM2",
 \item{hour}{The vector of time course about BRIC-seq experiment.}
 
 \item{save}{Whether to save the output matrix file.}
+
+\item{figSave}{Whether to save the output fig file.}
 
 \item{inforColumn}{The number of information columns.}
 

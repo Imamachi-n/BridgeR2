@@ -46,6 +46,8 @@
 #'
 #' @param HKGenes The vector of house-keeping genes.
 #'
+#' @param save Whether to save the output matrix file.
+#'
 #' @param outputPrefix The prefix for the name of the output.
 #'
 #' @param normalization select "default" (percentile method) or "house_keeping_genes"
