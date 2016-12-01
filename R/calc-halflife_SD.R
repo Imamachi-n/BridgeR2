@@ -103,9 +103,10 @@ CalcHalflifeDeviation <- function(inputFile,
   RPKM_sd <- as.data.frame(t(apply(RPKM_data_table, 1, test_func)))
 
   # all data
-  fig_data <- cbind(halflife_sd,RPKM_sd)
+  fig_data_pre <- data.table(cbind(halflife_sd,RPKM_sd))
   header_label <- c("Half_mean","Half_SD","RPKM_mean","RPKM_SD")
-  colnames(fig_data) <- header_label
+  colnames(fig_data_pre) <- header_label
+  fig_data <- fig_data_pre[, names(fig_data_pre):=lapply(.SD, as.numeric)]
 
   # all data collection
   result_data <- cbind(infor_data_table,
@@ -250,7 +251,7 @@ BridgeRGrubbsTest <- function(controlFile,
 # ggplot2 wrapper
 drawHalfVariance <- function(table){
   p <- ggplot(data = table,
-              aes(x = halflife_variance))
+              aes_string(x = "halflife_variance"))
   p <- p + geom_histogram(fill = "steelblue", color = "white", binwidth = 0.1)
   p <- p + xlim(-5,5)
   p <- p + xlab("RNA half-life variance") + ylab("Count")
@@ -258,8 +259,9 @@ drawHalfVariance <- function(table){
 }
 
 draw_rpkm_vs_halflife_sd <- function(table){
-  p <- ggplot(data = table, aes(x = as.numeric(RPKM_mean),
-                                y = as.numeric(Half_SD)))
+  p <- ggplot(data = table,
+              aes_string(x = "RPKM_mean",
+                         y = "Half_SD"))
   p <- p + geom_point(alpha = 0.2)
   p <- p + geom_smooth(method = "loess")
   p <- p + xlab("RPKM mean") + ylab("RNA Half-life SD / RNA Half-life mean")
@@ -269,24 +271,11 @@ draw_rpkm_vs_halflife_sd <- function(table){
 
 draw_halflife_mean_vs_sd <- function(table){
   p <- ggplot(data = table,
-              aes(x = as.numeric(Half_mean),
-                  y = as.numeric(Half_SD)))
+              aes_string(x = "Half_mean",
+                         y = "Half_SD"))
   p <- p + geom_point(alpha = 0.2)
   p <- p + geom_smooth(method = "loess")
   p <- p + xlab("RNA Half-life mean") + ylab("Half-life SD / Half-life mean")
   p <- p + xlim(0,24) + ylim(0,2)
   return(p)
 }
-
-
-# testing
-# library(data.table)
-# library(ggplot2)
-# library(outliers)
-# half_sd_table <- CalcHalflifeDeviation(halflife_table, raw_table,
-#                                        outputPrefix = "data/BridgeR_7")
-#
-# controlFile <- half_sd_table
-# compFile <- fread("C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/BridgeR_6_halflife_pvalue_evaluation.txt", header = T)
-# grubbs_table <- BridgeRGrubbsTest(half_sd_table,
-#                                   compFile = compFile)

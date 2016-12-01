@@ -178,7 +178,7 @@ BridgeReport <- function(inputFile,
                                                          exp=predicted,
                                                          Condition = label))
       fig_data <- rbind(fig_data,
-                        cbind(time_point_exp_del, Condition = label))
+                        cbind(time_point_exp_del, Condition = as.factor(label)))
     }
 
     # table data
@@ -194,7 +194,9 @@ BridgeReport <- function(inputFile,
                                    predicted,
                                    gene_name,
                                    y_range){
-    p <- ggplot(data,aes(x = as.numeric(hour), y = as.numeric(as.vector(exp)), colour = factor(Condition)))
+    p <- ggplot(data,aes_string(x = "hour",
+                                y = "exp",
+                                colour = "Condition"))
     p <- p + geom_point(size=2.5, shape=19)
     p <- p + scale_color_manual(values = c("black", "orange"))
     p <- p + geom_line(data = predicted, size=0.9)
@@ -213,13 +215,13 @@ BridgeReport <- function(inputFile,
   }
 
   # plotly wrapper
-  plotly_decay_curve <- function(data,
-                                 predicted,
-                                 gene_name){
-    p <- plot_ly(data, x = ~hour, y = ~exp(exp)) %>%
-      layout(yaxis = list(type = "log"))
-    return(p)
-  }
+  # plotly_decay_curve <- function(data,
+  #                                predicted,
+  #                                gene_name){
+  #   p <- plot_ly(data, x = ~hour, y = ~exp(exp)) %>%
+  #     layout(yaxis = list(type = "log"))
+  #   return(p)
+  # }
 
   # UI - shiny dashboard
   ui_body <- dashboardBody(
@@ -318,10 +320,6 @@ BridgeReport <- function(inputFile,
                                            predicted_data,
                                            gene_name,
                                            input$range_y)))
-
-      # return(plotly_decay_curve(fig_data,
-      #                           predicted_data,
-      #                           gene_name))
     })
 
     # Information box - condition_1
@@ -346,25 +344,3 @@ BridgeReport <- function(inputFile,
   # Run the application
   shinyApp(ui = ui, server = server)
 }
-
-
-
-# library(shiny)
-# library(shinydashboard)
-# library(plotly)
-# library(ggplot2)
-# library(data.table)
-#
-# pvalue_table <- fread("C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/tmp/BridgeR_6_halflife_pvalue_evaluation.txt", header = T)
-# BridgeReport(pvalue_table)
-#
-# inputFile <- pvalue_table
-# group = c("Control","Knockdown")
-# hour = c(0, 1, 2, 4, 8, 12)
-# comparisonFile = c("Control","Knockdown")
-# searchRowName = "symbol"
-# inforColumn = 4
-# color = c("black","red")
-# TimePointRemoval1 = c(1,2)
-# TimePointRemoval2 = c(8,12)
-

@@ -327,7 +327,3 @@ BridgeRPvalueEvaluation <- function(inputFile,
   return(output_matrix)
 
 }
-
-# testing
-# library(BSDA)
-# pvalue_table <- BridgeRPvalueEvaluation(halflife_table, calibration = TRUE)

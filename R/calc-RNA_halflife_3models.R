@@ -296,10 +296,3 @@ BridgeRHalfLifeCalc3models <- function(inputFile,
 
   return(output_matrix)
 }
-
-# testing
-# group = c("Control","Knockdown")
-# hour = c(0, 1, 2, 4, 8, 12)
-# halflife_table <- BridgeRHalfLifeCalc3models(normalized_table[1:200,],
-#                                               group = group,
-#                                               hour = hour)

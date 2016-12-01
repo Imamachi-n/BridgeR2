@@ -55,8 +55,8 @@ BridgeRDatasetChecker <- function(inputFile,
 
   merge_fig_data <- data.table(checkData[[1]])
   merge_fig_percentile_data <- data.table(checkData[[2]])
-  setkey(merge_fig_data, label)
-  setkey(merge_fig_percentile_data, name)
+  setkey(merge_fig_data, "label")
+  setkey(merge_fig_percentile_data, "name")
   merge_time_label <- checkData[[3]]
 
   for (sample_index in 1:sample_size) {
@@ -175,6 +175,7 @@ BridgeRDatasetChecker <- function(inputFile,
   label_sort <- sort(unique(as.character(merge_fig_percentile_data$name)))
   merge_fig_percentile_data$name <- factor(merge_fig_percentile_data$name,
                                  levels = label_sort)
+
   p5 <- BridgeRCheckScatter(merge_fig_percentile_data)
   if (save == TRUE) {
     suppressWarnings(plot(p5))
@@ -310,7 +311,7 @@ BridgeRCheckDataPrep <- function(inputFile,
 BridgeRCheckScatter <- function(exp_percentile_data){
   # Fig plotting
   p <- ggplot(data=exp_percentile_data,
-              aes(x=name, y=q, colour=factor(factor)))
+              aes_string(x="name", y="q", colour="factor"))
   p <- p + geom_point(size = 5,
                       shape = 19)
   p <- p + xlab("") + ylab("Relative RPKM (Time0 = 1)")
@@ -321,7 +322,7 @@ BridgeRCheckScatter <- function(exp_percentile_data){
 BridgeRCheckboxplot <- function(fig_data){
   # Fig plotting
   p <- ggplot(data=fig_data,
-              aes(x=label,y=exp))
+              aes_string(x="label",y="exp"))
   p <- p + geom_boxplot()
   p <- p + xlab("") + ylab("Relative RPKM (Time0 = 1)")
   p <- p + ylim(-2,2)
@@ -331,13 +332,9 @@ BridgeRCheckboxplot <- function(fig_data){
 BridgeRCheckdensity <- function(fig_data){
   # Fig plotting
   p <- ggplot(data=fig_data,
-              aes(x=exp,colour=label))
+              aes_string(x="exp",colour="label"))
   p <- p + geom_density(size=1.2)
   p <- p + xlab("") + ylab("Relative RPKM (Time0 = 1)")
   p <- p + xlim(-2,2) + ylim(0,7)
   return(p)
 }
-
-# Testing
-# library(ggplot2)
-# BridgeRDatasetChecker(inputFile = test_table)

@@ -252,27 +252,3 @@ BridgeRHalfLifeCalcR2Select <- function(inputFile,
 
   return(output_matrix)
 }
-
-# Testing
-# inputFile <- normalized_table[121,]
-# group = c("Control","Knockdown")
-# hour = c(0, 1, 2, 4, 8, 12)
-# inforColumn = 4
-# CutoffTimePointNumber = 4
-# R2_criteria = 0.90
-# TimePointRemoval1 = c(1,2)
-# TimePointRemoval2 = c(8,12)
-# ThresholdHalfLife1 = 3
-# ThresholdHalfLife2 = 12
-# save = T
-# outputPrefix = "BridgeR_5"
-
-# halflife_table <- BridgeRHalfLifeCalcR2Select(normalized_table)
-
-# Testing
-# group <- c("CTRL_PUM1", "CTRL_PUM2", "CTRL_DKD", "PUM1_KD")
-# hour <- c(0,1,2,4,8,12)
-# halflife_table <- BridgeRHalfLifeCalcR2Select(normalized_table,
-#                                               group = group,
-#                                               hour = hour,
-#                                               outputPrefix = "data/BridgeR_5_CTRL_conllection")

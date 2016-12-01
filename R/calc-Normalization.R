@@ -115,7 +115,7 @@ BridgeRNormalizationFactors <- function(inputFile,
       png(filename=fig_name, width = 1200, height = 1200)
 
       # plotting
-      p <- BridgeRCheckLineGraph(fig_data)
+      p <- BridgeRCheckLineGraph(fig_data, YMin, YMax)
       plot(p)
       dev.off()    # close fig
       plot.new()
@@ -228,12 +228,12 @@ BridgeRNormalizationFactorsHK <- function(inputFile,
 }
 
 
-BridgeRCheckLineGraph <- function(fig_data){
+BridgeRCheckLineGraph <- function(fig_data, YMin, YMax){
   p <- ggplot(data = data.table(fig_data),
-              aes(x = as.numeric(as.vector(label)),
-                  y = exp,
-                  class = factor(class_flg),
-                  colour = color_flg)
+              aes_string(x = "label",
+                         y = "exp",
+                         class = "class_flg",
+                         colour = "color_flg")
               )
   p <- p + geom_line(# size=0.02,
                      alpha=0.2)
@@ -334,48 +334,3 @@ BridgeRNormalization <- function(inputFile,
 
   return(output_matrix)
 }
-
-# Testing
-# library(ggplot2)
-# hour <- c(0,1,2,4,8,12)
-# time_points <- 6
-# YMin <- -2
-# YMax <- 2
-# group = c("Control","Knockdown")
-# hour = c(0, 1, 2, 4, 8, 12)
-# inforColumn = 4
-# save = T
-# YMin = -2
-# YMax = 2
-# downsamplingFig = 0.2
-# makeFig = FALSE
-# cutoffQuantile = 0.975
-# figOutputPrefix = "BridgeR_3_fig_"
-# factorOutputPrefix = "BridgeR_3_"
-# inputFile <- test_table
-
-# testing
-# factor_table <- BridgeRNormalizationFactors(test_table)
-# factor_table_hk <- BridgeRNormalizationFactorsHK(test_table)
-
-# normalized_table <- BridgeRNormalization(test_table, factor_table)
-# normalized_table_hk <- BridgeRNormalization(test_table, factor_table_hk,
-#                                             outputPrefix = "BridgeR_4_HK")
-
-# BridgeRDatasetChecker(inputFile = normalized_table,
-#                       outputPrefix = "BridgeR_4_normalized")
-
-# quantile_table <- BridgeRNormalizationFactors(test_table,
-#                                               makeFig = T)
-
-# testing2
-# group <- c("CTRL_PUM1", "CTRL_PUM2", "CTRL_DKD", "PUM1_KD")
-# hour <- c(0,1,2,4,8,12)
-# factor_table <- BridgeRNormalizationFactors(test_table,
-#                                             group = group,
-#                                             hour = hour)
-# normalized_table <- BridgeRNormalization(test_table,
-#                                          factor_table,
-#                                          group = group,
-#                                          hour = hour,
-#                                          outputPrefix = "data/BridgeR_4_CTRL_conllection")

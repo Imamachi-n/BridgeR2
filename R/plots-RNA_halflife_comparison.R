@@ -40,14 +40,17 @@ BridgeRResultChecker <- function(inputFile,
   # RNA half-life infor for scattered plot
   halflife_index <- sapply(1:group_number,
                            function(i) i * (time_points + inforColumn + 3))
-  half_data_table <- inputFile[, halflife_index, with = F]
-  colnames(half_data_table) <- c("half_1", "half_2")
+  half_data_table_pre <- inputFile[, halflife_index, with = F]
+  colnames(half_data_table_pre) <- c("half_1", "half_2")
+  half_data_table <- log2(half_data_table_pre[, names(half_data_table_pre):=lapply(.SD, as.numeric)])
 
   # RNA half-life infor for density plot
-  half_1_data_table <- inputFile[, halflife_index[1], with = F]
+  half_1_data_table_pre <- inputFile[, halflife_index[1], with = F]
+  half_1_data_table <- half_1_data_table_pre[, names(half_1_data_table_pre):=lapply(.SD, as.numeric)]
   half_1_data_table_label <- rep(group[1], length(nrow(half_1_data_table)))
   half_1_data_table <- cbind(halflife = half_1_data_table, label = half_1_data_table_label)
-  half_2_data_table <- inputFile[, halflife_index[2], with = F]
+  half_2_data_table_pre <- inputFile[, halflife_index[2], with = F]
+  half_2_data_table <- half_2_data_table_pre[, names(half_2_data_table_pre):=lapply(.SD, as.numeric)]
   half_2_data_table_label <- rep(group[2], length(nrow(half_2_data_table)))
   half_2_data_table <- cbind(halflife = half_2_data_table, label = half_2_data_table_label)
   result_density <- rbind(half_1_data_table, half_2_data_table)
@@ -114,9 +117,9 @@ BridgeRResultChecker <- function(inputFile,
 
 draw_halflife_comparison <- function(table, group){
   p <- ggplot(data = table,
-              aes(x = log2(as.numeric(half_1)),
-                  y = log2(as.numeric(half_2)),
-                  colour = factor(flg_list)))
+              aes_string(x = "half_1",
+                         y = "half_2",
+                         colour = "flg_list"))
   p <- p + geom_point(alpha = 0.5)
   p <- p + scale_color_manual(values = c("gray", "red", "blue"))
   p <- p + xlab(paste("log2(RNA half-life [", group[1], "])", sep = ""))
@@ -130,8 +133,8 @@ draw_halflife_comparison <- function(table, group){
 
 draw_halflife_distribution <- function(table, group){
   p <- ggplot(data = table,
-              aes(x = as.numeric(halflife),
-                  colour = factor(label)))
+              aes_string(x = "halflife",
+                         colour = "label"))
   p <- p + geom_freqpoly(binwidth = 1, size = 1.0)
   p <- p + xlab("RNA half-life")
   p <- p + ylab("The number of genes")
@@ -140,14 +143,3 @@ draw_halflife_distribution <- function(table, group){
   p <- p + theme(axis.text.x = element_text(size=10), axis.text.y = element_text(size=10))
   return(p)
 }
-
-# testing
-# library(data.table)
-# p_value_table <- fread("C:/Users/Naoto/OneDrive/Shiny_app/For_Git/BridgeR2/tmp/BridgeR_6_halflife_pvalue_evaluation.txt",
-#                        header = T)
-# inputFile <- p_value_table
-# group = c("Control","Knockdown")
-# hour = c(0, 1, 2, 4, 8, 12)
-# inforColumn = 4
-# logScale = F
-# outputPrefix = "BridgeR_9"
