@@ -25,6 +25,9 @@ BridgeRDataSetFromRaw(inputFile, group = c("Control", "Knockdown"),
 
 \item{outputPrefix}{The prefix for the name of the output.}
 }
+\value{
+data.table object about relative RPKM values.
+}
 \description{
 \code{BridgeRDataSetFromRaw} returns the dataframe of
 the relative RPKM values compared with 0hr.

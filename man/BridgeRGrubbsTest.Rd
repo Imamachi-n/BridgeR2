@@ -25,8 +25,29 @@ BridgeRGrubbsTest(controlFile, compFile, hour = c(0, 1, 2, 4, 8, 12),
 
 \item{outputPrefix}{The prefix for the name of the output.}
 }
+\value{
+data.table object about Grabbs test result.
+}
 \description{
 \code{BridgeRGrubbsTest} returns the dataframe of
 RNA half-life for each gene.
+}
+\examples{
+group <- c("Control", "Knockdown")
+hour <- c(0, 1, 2, 4, 8, 12)
+half_sd_table <- CalcHalflifeDeviation(halflife_table,
+                                       RNA_halflife_grubbs_test,
+                                       group = c("CTRL_1",
+                                                 "CTRL_2",
+                                                 "CTRL_3"),
+                                       save = FALSE)
+grubbs_table <- BridgeRGrubbsTest(half_sd_table,
+                                  halflife_table,
+                                  compIndex = 4,
+                                  controlGroup = c("CTRL_1",
+                                                   "CTRL_2",
+                                                   "CTRL_3"),
+                                  save = FALSE)
+
 }
 

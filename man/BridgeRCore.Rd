@@ -60,7 +60,19 @@ BridgeRCore(inputFile, inforColumn = 4, group = c("Control", "Knockdown"),
 
 \item{method}{select "default" (R2 selection/1st-order) or "3models".}
 }
+\value{
+data.table object including RNA half-life, R2 and the selected fitting model.
+}
 \description{
 \code{BridgeRCore} returns RNA half-life for each gene.
+}
+\examples{
+halflife_table <- BridgeRCore(RNA_halflife_comparison[1:30,],
+                              save = FALSE)
+halflife_table <- BridgeRCore(RNA_halflife_comparison_HK[177:206],
+                              save = FALSE,
+                              normalization = "house_keeping_genes",
+                              method = "3models")
+
 }
 

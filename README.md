@@ -6,13 +6,13 @@
 BRIC-seq is a genome-wide approach for determining RNA stalibity in mammalian cells. `bridger2` provides a series of functions for performing a comprehensive BRIC-seq data analysis. After estimating the RPKM values for all genes from your BRIC-seq fastq files, you can easily analyze your BRIC-seq data using bridger2 R package. 
 
 To make that happen, `bridger2`:
-* check the quality of your BRIC-seq data.
+* Check the quality of your BRIC-seq data.
 
 * Normalizes RPKM values of your BRIC-seq data.
 
 * Calculate RNA half-life for each transcript
 
-* compare RNA half-lives between two conditions and .
+* Compare RNA half-lives between two conditions and .
 
 * Displays RNA decay curve using a web browser (powered by shiny).
 

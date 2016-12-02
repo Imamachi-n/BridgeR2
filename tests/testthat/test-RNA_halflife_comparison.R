@@ -2,7 +2,7 @@ context("RNA halflife comparison")
 
 test_that("Comparing RNA halflife", {
   # calc-Relative RPKM.R ##########
-  group <- c("CTRL","PUM1KD")
+  group <- c("Control","Knockdown")
   hour <- c(0,1,2,4,8,12)
   test_table <- BridgeRDataSetFromMatrix(inputFile = RNA_halflife_comparison,
                                          group = group,

@@ -25,8 +25,22 @@ CalcHalflifeDeviation(inputFile, rawFile, group = c("CTRL_PUM1", "CTRL_PUM2",
 
 \item{outputPrefix}{The prefix for the name of the output.}
 }
+\value{
+data.table object about RNA half-life SD.
+}
 \description{
 \code{BridgeRHalfLifeCalcR2Select} returns the dataframe of
 RNA half-life for each gene.
+}
+\examples{
+group <- c("Control", "Knockdown")
+hour <- c(0, 1, 2, 4, 8, 12)
+half_sd_table <- CalcHalflifeDeviation(halflife_table,
+                                       RNA_halflife_grubbs_test,
+                                       group = c("CTRL_1",
+                                                 "CTRL_2",
+                                                 "CTRL_3"),
+                                       save = FALSE)
+
 }
 

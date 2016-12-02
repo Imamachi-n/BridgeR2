@@ -66,6 +66,16 @@
 #'
 #' @param method select "default" (R2 selection/1st-order) or "3models".
 #'
+#' @return data.table object including RNA half-life, R2 and the selected fitting model.
+#'
+#' @examples
+#' halflife_table <- BridgeRCore(RNA_halflife_comparison[1:30,],
+#'                               save = FALSE)
+#' halflife_table <- BridgeRCore(RNA_halflife_comparison_HK[177:206],
+#'                               save = FALSE,
+#'                               normalization = "house_keeping_genes",
+#'                               method = "3models")
+#'
 #' @export
 #'
 #' @import data.table ggplot2

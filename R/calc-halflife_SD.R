@@ -19,6 +19,18 @@
 #'
 #' @param outputPrefix The prefix for the name of the output.
 #'
+#' @return data.table object about RNA half-life SD.
+#'
+#' @examples
+#' group <- c("Control", "Knockdown")
+#' hour <- c(0, 1, 2, 4, 8, 12)
+#' half_sd_table <- CalcHalflifeDeviation(halflife_table,
+#'                                        RNA_halflife_grubbs_test,
+#'                                        group = c("CTRL_1",
+#'                                                  "CTRL_2",
+#'                                                  "CTRL_3"),
+#'                                        save = FALSE)
+#'
 #' @export
 #'
 #' @import data.table ggplot2
@@ -168,6 +180,25 @@ CalcHalflifeDeviation <- function(inputFile,
 #' @param save Whether to save the output matrix file.
 #'
 #' @param outputPrefix The prefix for the name of the output.
+#'
+#' @return data.table object about Grabbs test result.
+#'
+#' @examples
+#' group <- c("Control", "Knockdown")
+#' hour <- c(0, 1, 2, 4, 8, 12)
+#' half_sd_table <- CalcHalflifeDeviation(halflife_table,
+#'                                        RNA_halflife_grubbs_test,
+#'                                        group = c("CTRL_1",
+#'                                                  "CTRL_2",
+#'                                                  "CTRL_3"),
+#'                                        save = FALSE)
+#' grubbs_table <- BridgeRGrubbsTest(half_sd_table,
+#'                                   halflife_table,
+#'                                   compIndex = 4,
+#'                                   controlGroup = c("CTRL_1",
+#'                                                    "CTRL_2",
+#'                                                    "CTRL_3"),
+#'                                   save = FALSE)
 #'
 #' @export
 #'
