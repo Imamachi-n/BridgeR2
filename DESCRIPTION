@@ -1,5 +1,5 @@
 Package: bridger2
-Title: Comprehensive BRIC-seq data analysis tool
+Title: Comprehensive BRIC-seq Data Analysis Tool
 Version: 0.1.0
 Authors@R: person("Naoto", "Imamachi", email = "naoto.imamachi@gmail.com", role = c("aut", "cre"))
 Description: An R library for comprehensive BRIC-seq data analysis.
