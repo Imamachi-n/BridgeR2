@@ -29,8 +29,9 @@ BridgeRGrubbsTest(controlFile, compFile, hour = c(0, 1, 2, 4, 8, 12),
 data.table object about Grabbs test result.
 }
 \description{
-\code{BridgeRGrubbsTest} returns the dataframe of
-RNA half-life for each gene.
+\code{BridgeRGrubbsTest} calculate the p-value for each gene
+ using grubbs test. The estimation is based on the standard deviation of
+ RNA half-lives in control conditions.
 }
 \examples{
 group <- c("Control", "Knockdown")

@@ -1,7 +1,7 @@
-#' Calculate RNA half-life for each gene.
+#' Calculate RNA half-life SD.
 #'
-#' \code{BridgeRHalfLifeCalcR2Select} returns the dataframe of
-#' RNA half-life for each gene.
+#' \code{BridgeRHalfLifeCalcR2Select} calculate RPKM SD and RNA half-life SD
+#' for each gene.
 #'
 #' @param inputFile The dataframe of halflife table.
 #'
@@ -162,8 +162,9 @@ CalcHalflifeDeviation <- function(inputFile,
 
 #' RNA half-life Grubbs test.
 #'
-#' \code{BridgeRGrubbsTest} returns the dataframe of
-#' RNA half-life for each gene.
+#' \code{BridgeRGrubbsTest} calculate the p-value for each gene
+#'  using grubbs test. The estimation is based on the standard deviation of
+#'  RNA half-lives in control conditions.
 #'
 #' @param controlFile The dataframe of halflife table.
 #'

@@ -27,8 +27,7 @@ BridgeRNormalization(inputFile, normFactorFile, group = c("Control",
 data.table object about normalized RPKM values.
 }
 \description{
-\code{BridgeRNormalization} returns the dataframe of
-the normalized RPKM values.
+\code{BridgeRNormalization} calculate the normalized RPKM values.
 }
 \examples{
 library(data.table)

@@ -28,7 +28,8 @@ BridgeRDatasetChecker(inputFile, group = c("Control", "Knockdown"),
 list object about ggplot2 fig data.
 }
 \description{
-\code{BridgeRDatasetChecker} returns several dataset information
+\code{BridgeRDatasetChecker} returns several BRIC-seq dataset information.
+This function is used for checking your BRIC-seq dataset quality.
 }
 \examples{
 library(data.table)

@@ -29,7 +29,7 @@ BridgeRDataSetFromRaw(inputFile, group = c("Control", "Knockdown"),
 data.table object about relative RPKM values.
 }
 \description{
-\code{BridgeRDataSetFromRaw} returns the dataframe of
-the relative RPKM values compared with 0hr.
+\code{BridgeRDataSetFromRaw} calculate the relative RPKM values
+compared with 0hr, importing tab-delimited txt file.
 }
 

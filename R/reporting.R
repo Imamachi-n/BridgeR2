@@ -1,6 +1,8 @@
-#' Shinyapp reporting to draw RNA decay curve.
+#' Shinyapp reporting for drawing RNA decay curve.
 #'
-#' \code{BridgeReport} returns a shinyapp to draw RNA decay curve.
+#' \code{BridgeReport} returns a shinyapp object to draw RNA decay curve.
+#' You can easily check RNA half-life and RNA decay fitting curve on
+#' your web browser.
 #'
 #' @param inputFile The vector of tab-delimited matrix file.
 #'

@@ -16,9 +16,10 @@
 # data.R ................................. Data information
 
 
-#' BridgeR Core function
+#' BridgeR basic function for calculating RNA half-life from BRIC-seq data
 #'
-#' \code{BridgeRCore} returns RNA half-life for each gene.
+#' \code{BridgeRCore} is a basic function for calculating RNA half-life
+#' BRIC-seq data and a wrapper of the other individual bridger2 functions.
 #'
 #' @param inputFile The vector of tab-delimited matrix file.
 #'

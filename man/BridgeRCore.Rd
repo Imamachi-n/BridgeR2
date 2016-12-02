@@ -2,7 +2,7 @@
 % Please edit documentation in R/core.R
 \name{BridgeRCore}
 \alias{BridgeRCore}
-\title{BridgeR Core function}
+\title{BridgeR basic function for calculating RNA half-life from BRIC-seq data}
 \usage{
 BridgeRCore(inputFile, inforColumn = 4, group = c("Control", "Knockdown"),
   hour = c(0, 1, 2, 4, 8, 12), RPKMcutoff = 0.1, cutoffBelow = 0.1,
@@ -64,7 +64,8 @@ BridgeRCore(inputFile, inforColumn = 4, group = c("Control", "Knockdown"),
 data.table object including RNA half-life, R2 and the selected fitting model.
 }
 \description{
-\code{BridgeRCore} returns RNA half-life for each gene.
+\code{BridgeRCore} is a basic function for calculating RNA half-life
+BRIC-seq data and a wrapper of the other individual bridger2 functions.
 }
 \examples{
 halflife_table <- BridgeRCore(RNA_halflife_comparison[1:30,],

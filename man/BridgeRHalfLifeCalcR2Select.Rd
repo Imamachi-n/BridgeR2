@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc-RNA_halflife_R2_selection.R
 \name{BridgeRHalfLifeCalcR2Select}
 \alias{BridgeRHalfLifeCalcR2Select}
-\title{Calculate RNA half-life for each gene.}
+\title{Calculate RNA half-life for each gene using R2 selection method.}
 \usage{
 BridgeRHalfLifeCalcR2Select(inputFile, group = c("Control", "Knockdown"),
   hour = c(0, 1, 2, 4, 8, 12), inforColumn = 4, CutoffTimePointNumber = 4,
@@ -39,8 +39,8 @@ BridgeRHalfLifeCalcR2Select(inputFile, group = c("Control", "Knockdown"),
 data.table object about RNA half-life, R2 and fitting model.
 }
 \description{
-\code{BridgeRHalfLifeCalcR2Select} returns the dataframe of
-RNA half-life for each gene.
+\code{BridgeRHalfLifeCalcR2Select} calculate RNA half-life for each gene
+using R2 selection method (default version).
 }
 \examples{
 library(data.table)

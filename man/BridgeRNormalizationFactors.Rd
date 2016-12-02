@@ -39,8 +39,8 @@ BridgeRNormalizationFactors(inputFile, group = c("Control", "Knockdown"),
 data.table object about normalization factors calculated by quantile method.
 }
 \description{
-\code{BridgeRNormalizationFactors} returns the dataframe of
-the normalization factors for BRIC-seq datasets.
+\code{BridgeRNormalizationFactors} calculate the normalization factors
+for BRIC-seq datasets.
 }
 \examples{
 library(data.table)

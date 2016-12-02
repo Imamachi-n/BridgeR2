@@ -1,7 +1,7 @@
 #' Calculate relative RPKM expression from raw data.
 #'
-#' \code{BridgeRDataSetFromRaw} returns the dataframe of
-#' the relative RPKM values compared with 0hr.
+#' \code{BridgeRDataSetFromRaw} calculate the relative RPKM values
+#' compared with 0hr, importing tab-delimited txt file.
 #'
 #' @param inputFile The vector of tab-delimited matrix file.
 #'
@@ -66,8 +66,8 @@ BridgeRDataSetFromRaw <- function(inputFile,
 
 #' Calculate relative RPKM expression from data.table format.
 #'
-#' \code{BridgeRDataSetFromMatrix} returns the dataframe of
-#' the relative RPKM values compared with 0hr.
+#' \code{BridgeRDataSetFromMatrix} the relative RPKM values compared with 0hr,
+#' importing data.table format.
 #'
 #' @param inputFile The vector of tab-delimited matrix file.
 #'

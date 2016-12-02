@@ -1,6 +1,7 @@
 #' BRIC-seq Dataset checker
 #'
-#' \code{BridgeRDatasetChecker} returns several dataset information
+#' \code{BridgeRDatasetChecker} returns several BRIC-seq dataset information.
+#' This function is used for checking your BRIC-seq dataset quality.
 #'
 #' @param inputFile Input matrix object.
 #'

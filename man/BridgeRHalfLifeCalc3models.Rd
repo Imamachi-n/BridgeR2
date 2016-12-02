@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc-RNA_halflife_3models.R
 \name{BridgeRHalfLifeCalc3models}
 \alias{BridgeRHalfLifeCalc3models}
-\title{Calculate RNA half-life for each gene.}
+\title{Calculate RNA half-life for each gene using 3model method.}
 \usage{
 BridgeRHalfLifeCalc3models(inputFile, group = c("Control", "Knockdown"),
   hour = c(0, 1, 2, 4, 8, 12), inforColumn = 4, CutoffTimePointNumber = 4,
@@ -27,8 +27,8 @@ BridgeRHalfLifeCalc3models(inputFile, group = c("Control", "Knockdown"),
 data.table object about RNA half-life, R2 and fitting model.
 }
 \description{
-\code{BridgeRHalfLifeCalc3models} returns the dataframe of
-RNA half-life for each gene.
+\code{BridgeRHalfLifeCalc3models} calculate RNA half-life for each gene
+using 3 models methods (older version).
 }
 \examples{
 library(data.table)

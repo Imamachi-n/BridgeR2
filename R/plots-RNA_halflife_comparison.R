@@ -1,6 +1,7 @@
 #' BRIC-seq result checker
 #'
-#' \code{BridgeRResultChecker} returns  .
+#' \code{BridgeRResultChecker} returns several BRIC-seq result information.
+#' This function is used for checking the basic genome-wide RNA half-lives' information.
 #'
 #' @param inputFile The vector of tab-delimited matrix file.
 #'

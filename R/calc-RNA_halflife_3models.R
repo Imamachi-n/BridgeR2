@@ -1,7 +1,7 @@
-#' Calculate RNA half-life for each gene.
+#' Calculate RNA half-life for each gene using 3model method.
 #'
-#' \code{BridgeRHalfLifeCalc3models} returns the dataframe of
-#' RNA half-life for each gene.
+#' \code{BridgeRHalfLifeCalc3models} calculate RNA half-life for each gene
+#' using 3 models methods (older version).
 #'
 #' @param inputFile The vector of tab-delimited matrix file.
 #'

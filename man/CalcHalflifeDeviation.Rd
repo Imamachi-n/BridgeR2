@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc-halflife_SD.R
 \name{CalcHalflifeDeviation}
 \alias{CalcHalflifeDeviation}
-\title{Calculate RNA half-life for each gene.}
+\title{Calculate RNA half-life SD.}
 \usage{
 CalcHalflifeDeviation(inputFile, rawFile, group = c("CTRL_PUM1", "CTRL_PUM2",
   "CTRL_DKD"), hour = c(0, 1, 2, 4, 8, 12), save = T, figSave = F,
@@ -29,8 +29,8 @@ CalcHalflifeDeviation(inputFile, rawFile, group = c("CTRL_PUM1", "CTRL_PUM2",
 data.table object about RNA half-life SD.
 }
 \description{
-\code{BridgeRHalfLifeCalcR2Select} returns the dataframe of
-RNA half-life for each gene.
+\code{BridgeRHalfLifeCalcR2Select} calculate RPKM SD and RNA half-life SD
+for each gene.
 }
 \examples{
 group <- c("Control", "Knockdown")

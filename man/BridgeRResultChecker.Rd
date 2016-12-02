@@ -25,7 +25,8 @@ BridgeRResultChecker(inputFile, group = c("Control", "Knockdown"),
 list object about ggplot2 fig data.
 }
 \description{
-\code{BridgeRResultChecker} returns  .
+\code{BridgeRResultChecker} returns several BRIC-seq result information.
+This function is used for checking the basic genome-wide RNA half-lives' information.
 }
 \examples{
 library(data.table)

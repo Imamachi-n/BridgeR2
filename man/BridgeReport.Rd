@@ -2,7 +2,7 @@
 % Please edit documentation in R/reporting.R
 \name{BridgeReport}
 \alias{BridgeReport}
-\title{Shinyapp reporting to draw RNA decay curve.}
+\title{Shinyapp reporting for drawing RNA decay curve.}
 \usage{
 BridgeReport(inputFile, group = c("Control", "Knockdown"), hour = c(0, 1, 2,
   4, 8, 12), comparisonFile = c("Control", "Knockdown"),
@@ -32,7 +32,9 @@ BridgeReport(inputFile, group = c("Control", "Knockdown"), hour = c(0, 1, 2,
 shiny.appobj object for searching and showing RNA decay curve for each gene.
 }
 \description{
-\code{BridgeReport} returns a shinyapp to draw RNA decay curve.
+\code{BridgeReport} returns a shinyapp object to draw RNA decay curve.
+You can easily check RNA half-life and RNA decay fitting curve on
+your web browser.
 }
 \examples{
 library(data.table)
