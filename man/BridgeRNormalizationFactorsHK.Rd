@@ -30,7 +30,7 @@ BridgeRNormalizationFactorsHK(inputFile, group = c("Control", "Knockdown"),
 data.table object about normalization factor calculated by house-keeping genes.
 }
 \description{
-\code{BridgeRNormalizationFactorsHK} calculate the normalization factors
+\code{BridgeRNormalizationFactorsHK} calculates the normalization factors
 from house-keeping genes.
 }
 \examples{

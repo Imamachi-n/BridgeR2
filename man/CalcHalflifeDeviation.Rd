@@ -29,7 +29,7 @@ CalcHalflifeDeviation(inputFile, rawFile, group = c("CTRL_PUM1", "CTRL_PUM2",
 data.table object about RNA half-life SD.
 }
 \description{
-\code{BridgeRHalfLifeCalcR2Select} calculate RPKM SD and RNA half-life SD
+\code{BridgeRHalfLifeCalcR2Select} calculates RPKM SD and RNA half-life SD
 for each gene.
 }
 \examples{

@@ -32,7 +32,7 @@ BridgeRPvalueEvaluation(inputFile, group = c("Control", "Knockdown"),
 data.table object about Fold-change of RNA half-lives, p-value.
 }
 \description{
-\code{BridgeRPvalueEvaluation} calculate fold-change of RNA half-life
+\code{BridgeRPvalueEvaluation} calculates the fold-change of RNA half-life
 and p-value between two conditions.
 }
 \examples{

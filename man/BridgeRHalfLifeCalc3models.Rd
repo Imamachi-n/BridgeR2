@@ -27,7 +27,7 @@ BridgeRHalfLifeCalc3models(inputFile, group = c("Control", "Knockdown"),
 data.table object about RNA half-life, R2 and fitting model.
 }
 \description{
-\code{BridgeRHalfLifeCalc3models} calculate RNA half-life for each gene
+\code{BridgeRHalfLifeCalc3models} calculates RNA half-life for each gene
 using 3 models methods (older version).
 }
 \examples{

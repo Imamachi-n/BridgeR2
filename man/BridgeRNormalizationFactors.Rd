@@ -39,7 +39,7 @@ BridgeRNormalizationFactors(inputFile, group = c("Control", "Knockdown"),
 data.table object about normalization factors calculated by quantile method.
 }
 \description{
-\code{BridgeRNormalizationFactors} calculate the normalization factors
+\code{BridgeRNormalizationFactors} calculates the normalization factors
 for BRIC-seq datasets.
 }
 \examples{

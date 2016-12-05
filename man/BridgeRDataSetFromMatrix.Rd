@@ -29,7 +29,7 @@ BridgeRDataSetFromMatrix(inputFile, group = c("Control", "Knockdown"),
 data.table object about relative RPKM values.
 }
 \description{
-\code{BridgeRDataSetFromMatrix} the relative RPKM values compared with 0hr,
+\code{BridgeRDataSetFromMatrix} calculates the relative RPKM values compared with 0hr,
 importing data.table format.
 }
 \examples{

@@ -39,7 +39,7 @@ BridgeRHalfLifeCalcR2Select(inputFile, group = c("Control", "Knockdown"),
 data.table object about RNA half-life, R2 and fitting model.
 }
 \description{
-\code{BridgeRHalfLifeCalcR2Select} calculate RNA half-life for each gene
+\code{BridgeRHalfLifeCalcR2Select} calculates RNA half-life for each gene
 using R2 selection method (default version).
 }
 \examples{

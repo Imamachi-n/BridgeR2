@@ -26,7 +26,7 @@ list object about ggplot2 fig data.
 }
 \description{
 \code{BridgeRResultChecker} returns several BRIC-seq result information.
-This function is used for checking the basic genome-wide RNA half-lives' information.
+This function is used for checking the distribution of genome-wide RNA half-lives.
 }
 \examples{
 library(data.table)
