@@ -1,6 +1,6 @@
 #' Calculate RNA half-life for each gene using R2 selection method.
 #'
-#' \code{BridgeRHalfLifeCalcR2Select} calculate RNA half-life for each gene
+#' \code{BridgeRHalfLifeCalcR2Select} calculates RNA half-life for each gene
 #' using R2 selection method (default version).
 #'
 #' @param inputFile The vector of tab-delimited matrix file.

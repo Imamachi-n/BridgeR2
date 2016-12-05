@@ -2,8 +2,8 @@ Package: bridger2
 Title: Genome-Wide RNA Degradation Analysis Using BRIC-Seq Data
 Version: 0.1.0
 Authors@R: person("Naoto", "Imamachi", email = "naoto.imamachi@gmail.com", role = c("aut", "cre"))
-Description: BRIC-seq is a genome-wide approach for determining RNA stalibity in mammalian cells.
-    bridger2 provides a series of functions for performing quality check of your BRIC-seq data,
+Description: BRIC-seq is a genome-wide approach for determining RNA stability in mammalian cells.
+    This package provides a series of functions for performing quality check of your BRIC-seq data,
     calculation of RNA half-life for each transcript and comparison of RNA half-lives between two conditions.
 Depends:
     R (>= 3.3.1)

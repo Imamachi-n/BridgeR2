@@ -1,6 +1,6 @@
 #' Calculate Fold-change of RNA half-life and p-value.
 #'
-#' \code{BridgeRPvalueEvaluation} calculate fold-change of RNA half-life
+#' \code{BridgeRPvalueEvaluation} calculates the fold-change of RNA half-life
 #' and p-value between two conditions.
 #'
 #' @param inputFile The vector of tab-delimited matrix file.

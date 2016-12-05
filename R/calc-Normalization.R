@@ -1,6 +1,6 @@
 #' Calculate normalization factors for BRIC-seq datasets.
 #'
-#' \code{BridgeRNormalizationFactors} calculate the normalization factors
+#' \code{BridgeRNormalizationFactors} calculates the normalization factors
 #' for BRIC-seq datasets.
 #'
 #' @param inputFile The vector of tab-delimited matrix file.
@@ -174,7 +174,7 @@ BridgeRNormalizationFactors <- function(inputFile,
 
 #' Calculate normalization factors from house-keeping genes.
 #'
-#' \code{BridgeRNormalizationFactorsHK} calculate the normalization factors
+#' \code{BridgeRNormalizationFactorsHK} calculates the normalization factors
 #' from house-keeping genes.
 #'
 #' @param inputFile The vector of tab-delimited matrix file.
@@ -319,7 +319,7 @@ BridgeRCheckLineGraph <- function(fig_data, YMin, YMax){
 
 #' Calculate the normalized RPKM for BRIC-seq dataset.
 #'
-#' \code{BridgeRNormalization} calculate the normalized RPKM values.
+#' \code{BridgeRNormalization} calculates the normalized RPKM values.
 #'
 #' @param inputFile The vector of tab-delimited matrix file.
 #'

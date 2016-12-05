@@ -2,7 +2,7 @@ This is a resubmission fixing a minor issue.
 
 ---
 ## Resubmission
-* More clearly rewrote the DESCRIPTION title and description. 
+* rewrote the DESCRIPTION description. 
 
 
 ## Test environments
