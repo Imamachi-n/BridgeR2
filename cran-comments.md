@@ -1,9 +1,8 @@
-This is a resubmission fixing two minor issues.
+This is a resubmission fixing a minor issue.
 
 ---
 ## Resubmission
-* Converted the DESCRIPTION title to title case.
-* Rewrote LICENSE file. 
+* More clearly rewrote the DESCRIPTION title and description. 
 
 
 ## Test environments
