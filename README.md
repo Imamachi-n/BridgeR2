@@ -1,6 +1,7 @@
 # BridgeR2
 [![Travis-CI Build Status](https://travis-ci.org/Imamachi-n/BridgeR2.svg?branch=master)](https://travis-ci.org/Imamachi-n/BridgeR2)
-[![codecov](https://codecov.io/gh/Imamachi-n/BridgeR2/branch/master/graph/badge.svg)](https://codecov.io/gh/Imamachi-n/BridgeR2)  
+[![codecov](https://codecov.io/gh/Imamachi-n/BridgeR2/branch/master/graph/badge.svg)](https://codecov.io/gh/Imamachi-n/BridgeR2)
+[![CRAN version](http://www.r-pkg.org/badges/version/bridger2)](https://CRAN.R-project.org/package=bridger2)  
   
 ## Overview
 BRIC-seq is a genome-wide approach for determining RNA stalibity in mammalian cells. `bridger2` provides a series of functions for performing a comprehensive BRIC-seq data analysis. After estimating the RPKM values for all genes from your BRIC-seq fastq files, you can easily analyze your BRIC-seq data using bridger2 R package. 
