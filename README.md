@@ -19,6 +19,9 @@ To make that happen, `bridger2`:
 
 ## Installation
 ```r
+# install CRAN released package
+install.packages("bridger2")
+
 # The the development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("Imamachi-n/BridgeR2")
@@ -29,3 +32,16 @@ Here I show the most basic step for analyzing your BRIC-seq data. This step requ
 ```r
 halflife_table <- BridgeRCore(RNA_halflife_comparison)
 ```
+
+### Display RNA decay curve
+```r
+# compare RNA half-lives between two conditions
+pvalue_table <- BridgeRPvalueEvaluation(halflife_table,
+                                        calibration = TRUE,
+                                        save = FALSE)
+
+# show RNA decay curve on RStudio/web browser.
+shiny_test <- BridgeReport(pvalue_table)
+shiny_test
+```
+![](README-example-1.gif)
